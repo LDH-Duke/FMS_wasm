@@ -1,4 +1,6 @@
-﻿using FMS.Shared.Models;
+﻿using FMS.Server.Services.UserService;
+using FMS.Server.Services.UserService.DTOs;
+using FMS.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,17 +10,33 @@ namespace FMS.Server.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+
+        private readonly IUserServiceAsync _userService;
+
+        public UserController(IUserServiceAsync userService)
+        {
+            _userService = userService;
+        }
+
         /// <summary>
         /// 회원 가입
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult AddUser(Users user)
+        public async Task<IActionResult> AddUser(UserDTO userDTO)
         {
-            //서비스 호출
-            Console.WriteLine(user);
-            return Ok(user);
+            try
+            {
+                //서비스 호출
+                Console.WriteLine(userDTO);
+                await _userService.AddUserAsync(userDTO);
+                return Ok(userDTO);
+            }
+            catch (Exception ex)
+            {
+                return Ok();
+            }
         }
 
         /// <summary>
@@ -29,9 +47,17 @@ namespace FMS.Server.Controllers
         [HttpGet]
         public IActionResult GetUserByAccount(string account)
         {
-            //서비스 호출
-            Console.WriteLine(account);
-            return Ok(account);
+            try
+            {
+                //서비스 호출
+                Console.WriteLine(account);
+                return Ok(account);
+            }
+            catch (Exception ex)
+            {
+                return Ok();
+            }
+            
         }
 
         /// <summary>
@@ -41,9 +67,17 @@ namespace FMS.Server.Controllers
         [HttpGet]
         public IActionResult GetAllUser()
         {
-            //서비스 호출
+            try
+            {
+                //서비스 호출
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return Ok();
+            }
             
-            return Ok();
         }
 
         /// <summary>
@@ -54,9 +88,18 @@ namespace FMS.Server.Controllers
         [HttpPut]
         public IActionResult EditUser(Users user)
         {
-            //서비스 호출
+            try
+            {
+                //서비스 호출
 
-            return Ok();
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return Ok();
+
+            }
+            
         }
 
         /// <summary>
@@ -67,9 +110,13 @@ namespace FMS.Server.Controllers
         [HttpGet]
         public IActionResult DeleteUser(string account)
         {
-            //서비스 호출
-
-            return Ok();
+            try
+            {
+                return Ok();
+            }catch(Exception ex)
+            {
+                return Ok();
+            }
         }
     }
 }
