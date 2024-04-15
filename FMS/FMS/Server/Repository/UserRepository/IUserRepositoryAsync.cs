@@ -2,7 +2,7 @@
 
 namespace FMS.Server.Repository.UserRepository
 {
-    public interface IUserRepositoryAsync :
+    public interface IUserRepositoryAsync
     {
         Task<Users> Add(Users user);
     }

@@ -1,0 +1,118 @@
+﻿@page "/signup"
+@using FMS.Client.Pages.UserSignUp.Components
+@using FMS.Shared.Models
+@inject NavigationManager Navigation
+
+
+<div class="signup-container">
+    <div class="signup-wrap">
+        <div class="signup-title">
+            <sapn>
+                Sign Up
+            </sapn>
+        </div>
+        <EditForm Model="@user" OnValidSubmit="Submit">
+            <DataAnnotationsValidator />
+            <div class="signup-form">
+                <div class="signup-form-inputgroup">
+                    <InputField Label="Id" InputType="text" Placeholder="Id" @bind-Value="@user.Account" />
+                    <ValidationMessage For="@(()=>@user.Account)" />
+                    <InputField Label="Pw" InputType="password" Placeholder="Pw" @bind-Value="@user.Password" OnBlur="OnPwCheck" />
+                    <ValidationMessage For="@(()=>@user.Password)" />
+                    <InputField Label="Pw Check" InputType="password" Placeholder="Pw Check" @bind-value="CheckPw"  OnBlur="OnPwCheck" />
+                    <InputField Label="Name" InputType="text" Placeholder="Name" @bind-Value="@user.Name" />
+                    <ValidationMessage For="@(()=>@user.Name)" />
+                    <InputField Label="Email" InputType="text" Placeholder="Email" @bind-Value="@user.Email" />
+                    <ValidationMessage For="@(()=>@user.Email)" />
+                    <InputField Label="Phone" InputType="text" Placeholder="Phone" @bind-Value="@user.PhoneNumber" />
+                    <ValidationMessage For="@(()=>@user.PhoneNumber)" />
+                </div>
+                <div class="signup-form-btngroup">
+                    <button type="submit" class="signup-form-btn btn1">회원가입</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+@code {
+    private string? CheckPw = null;
+    private int is_PwCheck = 2;
+
+    Users user = new Users();
+
+    /*
+    * 회원가입 Submit
+    * --
+    */
+    private void Submit()
+    {
+        try
+        {
+            Console.WriteLine("[회원가입][Submit] 동작");
+            Console.WriteLine("ID : " + user.Account);
+            Console.WriteLine("PW : " + user.Password);
+            Console.WriteLine("Name : " + user.Name);
+            Console.WriteLine("Email : " + user.Email);
+            Console.WriteLine("Phone : " + user.PhoneNumber);
+
+
+
+            Navigation.NavigateTo("/signin");
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine("[Sign Up] [Submit] 회원가입 에러 \n" + err);
+        }
+    }
+
+     /*
+    * 비밀번호 확인
+    * --
+    */
+    private void OnPwCheck()
+    {
+        try
+        {
+            if(CheckPw == user.Password)
+            {
+                is_PwCheck = 1;
+                Console.WriteLine("비밀번호 일치");
+            }
+            else
+            {
+                is_PwCheck = 0;
+                Console.WriteLine("비밀번호 불일치");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("[회원가입][OnPwCheck] \n"+e);
+            throw e;
+        }
+    }
+
+}
+
+@* <div class="signin-form-inputs">
+    <label class="signin-form-label">ID</label>
+    <input class="signin-form-input" type="text" @bind-value="user.Account" placeholder="ID"/>
+</div>
+<ValidationMessage For="@(()=>user.Account)" /> *@
+@* <div class="signin-form-inputs">
+    <label class="signin-form-label">PW</label>
+    <input class="signin-form-input" type="password" @bind-value="user.Password" placeholder="PW" />
+</div>
+<div class="signin-form-inputs">
+    <label class="signin-form-label">Name</label>
+    <input class="signin-form-input" type="text" @bind-value="user.Name" placeholder="Name" />
+</div>
+<div class="signin-form-inputs">
+    <label class="signin-form-label">Email</label>
+    <input class="signin-form-input" type="text" @bind-value="user.Email" placeholder="Email" />
+</div>
+<div class="signin-form-inputs">
+    <label class="signin-form-label">Phone</label>
+    <input class="signin-form-input" type="text" @bind-value="user.PhoneNumber" placeholder="Phone" />
+</div> *@
+
+

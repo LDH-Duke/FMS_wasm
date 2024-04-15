@@ -1,0 +1,36 @@
+﻿@page "/signin"
+@using FMS.Shared.Models
+
+<div class="signin-container">
+    <div class="signin-wrap">
+        <div class="signin-title">
+            <sapn>
+                Sign In
+            </sapn>
+        </div>
+        <EditForm Model="@user">
+            <div class="signin-form">
+                <div class="signin-form-inputgroup">
+                    <div class="signin-form-inputs">
+                        <label class="signin-form-label">ID</label>
+                        <input class="signin-form-input" type="text" />
+                    </div>
+                    <div class="signin-form-inputs">
+                        <label class="signin-form-label">PW</label>
+                        <input class="signin-form-input" type="password" />
+                    </div>
+                </div>
+                <div class="signin-form-btngroup">
+                    <button class="signin-form-btn btn1">로그인</button>
+                    <button class="signin-form-btn btn2" onclick="location.href='/signup'">회원가입</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+@code {
+    /*
+    * 로그인 모델 새로 생성 예정
+    */
+    Users user = new Users();
+}

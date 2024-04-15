@@ -1,4 +1,18 @@
 .page {
+    display: flex;
+    flex-direction : column ;
+
+    height : 100%;
+    /*align-items:center;*/
+    background-color: #ffffff;
+    overflow-y: scroll;
+}
+
+main ,.main, .body, .content {
+    height: 100%;
+}
+
+/*.page {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -79,3 +93,4 @@ main {
         padding-right: 1.5rem !important;
     }
 }
+*/

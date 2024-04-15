@@ -1,10 +1,52 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    color:black;
+
+    -ms-overflow-style: none; /* 익스플로러, 앳지 */
+    scrollbar-width: none; /* 파이어폭스 */
+}
+
+*::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라 */
+}
+
+html,
+#app,
+body,
+.page {
+    height: 100%;
+}
+
+ol,ul,li{
+    list-style:none;
+}
+
+a {
+    text-decoration:none;
+}
+
+a:visited{
+    color:black;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-h1:focus {
+
+
+
+
+/*h1:focus {
     outline: none;
 }
 
@@ -99,3 +141,4 @@ a, .btn-link {
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
+*/

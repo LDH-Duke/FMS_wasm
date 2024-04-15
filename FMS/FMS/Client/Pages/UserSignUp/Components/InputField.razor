@@ -1,0 +1,33 @@
+﻿
+
+<div class="inputfield-container">
+    <label class="inputfield-label">
+        @Label
+    </label>
+    <input class="inputfield-input"
+           type="@InputType"
+           @bind-value="@Value"
+           placeholder="@Placeholder"
+           @oninput="onChangeText"
+           @onblur="OnBlur"
+        />
+    
+</div>
+
+@code {
+    [Parameter] public string Label { get; set; }
+    [Parameter] public string InputType{ get; set; }
+    [Parameter] public string Value { get; set; }
+    [Parameter] public string Placeholder { get; set; }
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public EventCallback OnBlur{ get; set; }
+
+    private async Task onChangeText(ChangeEventArgs e)
+    {
+        Console.WriteLine(Label);
+        Console.WriteLine(e.Value.ToString());
+        Value = e?.Value?.ToString();
+
+        await ValueChanged.InvokeAsync(Value);
+    }
+}
