@@ -3,6 +3,8 @@
 @inject NavigationManager Navigation
 @using FMS.Client.Pages.UserSignUp.Components
 
+@inject HttpClient httpClient
+
 <div class="signup-container">
     <div class="signup-wrap">
         <div class="signup-title">
@@ -16,6 +18,7 @@
                 <div class="signup-form-inputgroup">
                     <InputField Label="Id" InputType="text" Placeholder="Id" @bind-Value="@user.UserId"/>
                     <ValidationMessage For="@(()=>@user.UserId)"/>
+                    <button @onclick="()=>OnDoubleCheck(user.UserId)">중복</button>
                     <InputField Label="Pw" InputType="password" Placeholder="Pw" @bind-Value="@user.Password" OnBlur="OnPwCheck" />
                     <ValidationMessage For="@(()=>@user.Password)" />
                    
@@ -95,7 +98,7 @@
             {
                 is_PwCheck = 1;
                 Console.WriteLine("비밀번호 일치");
-                
+
             }
             else
             {
@@ -107,6 +110,23 @@
         {
             Console.WriteLine("[회원가입][OnPwCheck] \n"+e);
             throw e;
+        }
+    }
+
+    private async void OnDoubleCheck(string userId)
+    {
+        try
+        {
+            
+
+            // var res = await httpClient.PostAsync("http://localhost:8888/api/User/AddUser", userId);
+            // Console.WriteLine(res);
+
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine("[회원가입][중복검사] 중복확인 에러! \n" + err);
+            
         }
     }
 

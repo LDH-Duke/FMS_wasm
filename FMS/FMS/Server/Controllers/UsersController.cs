@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace FMS.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -22,6 +22,27 @@ namespace FMS.Server.Controllers
         {
             var temp = await UserInfoRepository.GetAllAsync();
             return temp;
+        }
+
+
+        [HttpPost]
+        public void AddUser()
+        {
+            try
+            {
+                Console.WriteLine("gg");
+                var requestBody = Request.Body;
+
+                Console.WriteLine(requestBody);
+
+                //UserInfoRepository.GetByUserIdAsync()
+
+                
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("[UserController][AddUser] + 회원가입 컨트롤러 에러 ! \n" + ex);
+            }
         }
 
     }
