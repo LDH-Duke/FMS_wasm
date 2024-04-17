@@ -8,7 +8,7 @@
       },
       "dotnetRunMessages": true,
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
-      "applicationUrl": "http://localhost:5077;http://123.2.156.148:5077"
+      "applicationUrl": "http://localhost:5077;"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -24,7 +24,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:8888;http://localhost:5077;https://123.2.156.148:8888"
+      "applicationUrl": "https://localhost:8888;http://localhost:5077;"
     }
   },
   "iisSettings": {
