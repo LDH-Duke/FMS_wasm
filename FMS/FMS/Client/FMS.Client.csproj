@@ -24,11 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\FMS.Shared.csproj" />
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\js\" />
+    <ProjectReference Include="..\Shared\FMS.Shared.csproj" />
   </ItemGroup>
 
 </Project>

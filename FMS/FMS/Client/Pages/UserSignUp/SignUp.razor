@@ -1,6 +1,4 @@
 ﻿@page "/signup"
-@using FMS.Client.Pages.UserSignUp.Components
-@using FMS.Shared.Entity
 @using FMS.Shared.Models
 @inject NavigationManager Navigation
 
@@ -21,10 +19,12 @@
             <DataAnnotationsValidator />
             <div class="signup-form">
                 <div class="signup-form-inputgroup">
+                    @*
                     <InputField Label="Id" InputType="text" Placeholder="Id" @bind-Value="@user.UserId" />
                     <ValidationMessage For="@(()=>@user.UserId)"/>
                     <InputField Label="Pw" InputType="password" Placeholder="Pw" @bind-Value="@user.Password" OnBlur="OnPwCheck" />
                     <ValidationMessage For="@(()=>@user.Password)" />
+                    *@
                     @* <InputField Label="Pw Check" InputType="password" Placeholder="Pw Check" @bind-value="CheckPw"  OnBlur="OnPwCheck" />
                     <InputField Label="Name" InputType="text" Placeholder="Name" @bind-Value="@user.Name" />
                     <ValidationMessage For="@(()=>@user.N)" />

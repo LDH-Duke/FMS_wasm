@@ -12,21 +12,12 @@ builder.Services.AddTransient<IUserInfoRepository, UserInfoRepository>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-<<<<<<< HEAD
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//    options.UseSqlServer(builder.Configuration
-//    .GetConnectionString("DefaultConnection")));
-=======
 
-
->>>>>>> origin/kyw
 builder.Services.AddDbContext<FmsContext>(options =>
     options.UseSqlServer(builder.Configuration
     .GetConnectionString("DefaultConnection")));
 
 
-<<<<<<< HEAD
-=======
 #region SIGNAL R CORS 등록
 // SIGNAL R CORS 등록
 builder.Services.AddCors(options =>
@@ -53,7 +44,6 @@ builder.Services.AddResponseCompression(opts =>
 #endregion
 
 
->>>>>>> origin/kyw
 var app = builder.Build();
 
 #region SIGNAL CORS 허용
