@@ -1,0 +1,79 @@
+﻿@page "/qredit"
+@using System.Web
+@using System.Text
+
+<!-- QR 생성화면 -->
+<h3>QREdit</h3>
+
+<div>
+    <span>서비스ID : </span>
+    <input type="text" @bind-value="ServiceID" placeholder="서비스ID"/>
+</div>
+
+<div>
+    <span>사이트ID : </span>
+    <input type="text" @bind-value="SiteID" placeholder="사이트ID"/>
+</div>
+
+<div>
+    <span>건물ID : </span>
+    <input type="text" @bind-value="PlantID" placeholder="건물"/>
+</div>
+
+<div>
+    <span>층ID : </span>
+    <input type="text" @bind-value="FloorID" placeholder="층"/>
+</div>
+
+<div>
+    <span>위치ID : </span>
+    <input type="text" @bind-value="LocationID" placeholder="위치"/>
+</div>
+
+<div>
+    <input type="button" value="QR생성" @onclick="(async () => await btn_QRCreate())" />
+</div>
+
+<div id="qrcodes" style="width:100px; height:100px; margin:auto; margin-top:15px;" />
+
+@code {
+
+    private string ServiceID{ get; set; } // 서비스 ID
+    private string SiteID { get; set; } // 사이트 ID
+    private string PlantID{ get; set; } // 건물 ID
+    private string FloorID{get;set;} // 층ID
+    private string LocationID{ get; set; } // 위치ID
+
+    protected override void OnInitialized()
+    {
+        // 기본정보 SELECT해서 위의 Field에 넣으면 될듯    
+        // 위의 Field Model화 해야함.
+    }
+
+    protected async Task btn_QRCreate()
+    {
+        //JS.InvokeVoidAsync("qrcreate", $"https://123.2.156.148:8888/qrcommons?svid={ServiceID}&stid={SiteID}&pid={PlantID}&fid={FloorID}&lid={LocationID}");
+
+        //string temp = AES256.AESEncrypt128("!23125");
+        //JS.InvokeAsync<object>("alert", temp);
+
+        //https://localhost:8888/qrcommons?svid=5&stid=99&pid=22&fid=66&lid=37
+
+        //string querystring = $"svid={ServiceID}&stid={SiteID}&pid={PlantID}&fid={FloorID}&lid={LocationID}";
+        string querystring = $"svid={ServiceID}&stid={SiteID}&pid={PlantID}&fid={FloorID}&lid={LocationID}";
+        byte[] ConvertString = Encoding.ASCII.GetBytes(querystring);
+        string result = Convert.ToBase64String(ConvertString);
+
+        string url = $"https://123.2.156.148:8888/qrcommons?{result}";
+
+        Console.WriteLine(url);
+        //await JS.InvokeVoidAsync("alert", url);
+        JS.InvokeVoidAsync("qrcreate", url);
+
+        //https://localhost:8888/qrcommons?c3ZpZD0xJnN0aWQ9MiZwaWQ9MyZmaWQ9NCZsaWQ9NQ==
+
+    }
+
+
+
+}
