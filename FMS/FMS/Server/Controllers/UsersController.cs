@@ -23,11 +23,8 @@ namespace FMS.Server.Controllers
         [HttpGet]
         public async ValueTask<IEnumerable<UserInfo>> Get()
         {
-
-
-
             var temp = await UserInfoRepository.GetAllAsync();
-            var temp2 = dataService.Test();
+            //var temp2 = dataService.Test();
             return temp;
         }
 

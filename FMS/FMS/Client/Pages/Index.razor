@@ -1,6 +1,8 @@
 ﻿@page "/"
+@using FMS.Client.Commons
 @using FMS.Shared.Models
 @inject HttpClient Http
+@inject IJSRuntime JS
 
 <PageTitle>Index</PageTitle>
 
@@ -10,10 +12,26 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
+<input type="text" @bind-value="PassWord" />
+
+<input type="button" value="check" @onclick="btnCheck"/>
+
 @code{
+    UsersComm comm;
+    private string PassWord { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
-        var temp = await Http.GetFromJsonAsync<List<UserInfo>>("api/Users");
-        Console.WriteLine("");
+        comm = new UsersComm();
+        //var temp = await Http.GetFromJsonAsync<List<UserInfo>>("api/Users");
+        //Console.WriteLine("");
+
+
+    }
+
+    protected void btnCheck()
+    {
+        bool temp = comm.CheckPassWord(PassWord);
+        JS.InvokeVoidAsync("alert", temp);
     }
 }
