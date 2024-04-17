@@ -1,0 +1,105 @@
+﻿
+/* 사업장 테이블 */
+create table PlaceInfo
+(
+	[Id] int identity(1,1) not null, /* 자동 증가값 */
+	[Code] varchar(25) primary key not null, /* 사업장 코드 */
+	[Name] varchar(255) not null, /* 사업장 명 */
+	[Note] varchar(20), /* 비고 */
+	[CreateDT] datetime default(getdate()),
+	[UpdateDT] datetime
+)
+
+/* 건물 테이블 */
+create table PlantInfo
+(
+	[Id] int identity(1,1) not null, /* 자동 증가값 */
+	[Code] varchar(25) primary key not null, /* 건물 코드 */
+	[Name] varchar(255) not null, /* 건물 명 */
+	[Address] varchar(255), /* 건물 주소 */
+	[GrossFloorArea] float, /* 연 면적 */
+	[LandArea] float, /* 대지면적 */
+	[BuildingArea] float, /* 건축면적 */
+	[CreateDT] datetime default(getdate()),
+	[UpdateDT] datetime,
+
+	[PlaceInfo_Code] varchar(25) FOREIGN KEY references PlaceInfo (Code),
+)
+
+/* 층 테이블 */
+create table FloorInfo
+(
+	[Id] int primary key identity(1,1) not null, /* 자동 증가값 */
+	[Name] varchar(10) not null, /* 층 명칭 */
+	[CreateDT] datetime default(getdate()),
+	[UpdateDT] datetime,
+
+	[PlantInfo_Code] varchar(25) FOREIGN KEY references PlantInfo (Code)
+)
+
+/* 공간 테이블 */
+Create table LocationInfo
+(
+	[Id] int primary key identity(1,1) not null, /* 자동 증가값 */
+	[Name] varchar(35) not null, /* 공간 명칭 */
+	[CreateDT] datetime default(getdate()),
+	[UpdateDT] datetime,
+
+	[FloorInfo_Id] int FOREIGN KEY references FloorInfo (Id),
+);
+
+/* 장비 테이블 */
+Create table DeviceInfo
+(
+	[Id] int primary key identity(1,1) not null, /* 자동 증가값 */
+	[Name] varchar(255) not null, /* 장비 명칭 */
+	[CreateDT] datetime default(getdate()),
+	[UpdateDT] datetime,
+
+	[LocationInfo_Id] int FOREIGN KEY references LocationInfo (Id)
+)
+
+
+/* 사용자 테이블 */
+Create table UserInfo
+(
+	[Id] int identity(1,1) not null, /* 자동 증가값 */
+	[UserId] varchar(15) primary key not null, /* 사용자 ID */
+	[Password] varchar(30) not null, /* 비밀번호 */
+	[IsAdmin] bit default(0), /* 관리자 여부 */
+	[Perm_Place] bit default(0), /* 건물정보 */
+	[Perm_Device] bit default(0), /* 장비관리 */
+	[Perm_Material] bit default(0), /* 자재관리 */
+	[Perm_Energy] bit default(0), /* 에너지 관리 */
+	[Perm_Adm] bit default(0), /* 행정관리 */
+	[Perm_Comp] bit default(0), /* 업체관리 */
+	[Perm_Const] bit default(0), /* 공사관리 */
+	[Perm_Claim] bit default(0), /* 민원관리 */
+	[Perm_Sys] bit default(0), /* 시스템연동 */
+	[Perm_Imployee] bit default(0), /* 입퇴직관리 */
+	[Perm_lawck] bit default(0), /* 법정점검 */
+	[Perm_lawedu] bit default(0), /* 법정교육 */
+	[CreateDT] datetime default(getdate()),
+	[UpdateDT] datetime,
+
+	[PlaceInfo_Code] varchar(25) FOREIGN KEY references PlaceInfo ([Code])
+)
+
+drop table DeviceInfo
+drop table FloorInfo
+drop table LocationInfo
+drop table PlaceInfo
+drop table PlantInfo
+drop table UserInfo
+
+/*
+ALTER TABLE [테이블명] ADD CONSTRAINT [FOREIGN KEY명] FOREIGN KEY ([컬럼명]) REFERENCES [테이블명] ([컬럼명])
+*/
+ALTER TABLE PlantInfo ADD CONSTRAINT PlaceInfo_Code FOREIGN KEY (Code) REFERENCES PlaceInfo (Code)
+
+
+
+
+
+Scaffold-DbContext  "Data Source=123.2.156.122,1002;Database=FMS;User Id=stec;Password=stecdev1234!;TrustServerCertificate=true;" Microsoft.EntityFrameworkCore.SqlServer
+Scaffold-DbContext  "Data Source=123.2.156.122,1002;Database=FMS;User Id=stec;Password=stecdev1234!;TrustServerCertificate=true;" Microsoft.EntityFrameworkCore.SqlServer -o update

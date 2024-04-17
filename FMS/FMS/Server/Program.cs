@@ -1,31 +1,20 @@
+using FMS.Server.Databases;
 using FMS.Server.Hubs;
-using FMS.Server.Models;
-using FMS.Server.Repository.UserRepository;
-using FMS.Server.Services;
-using FMS.Server.Services.Interfaces;
-using FMS.Server.Services.UserService;
+using FMS.Server.Repository;
+using FMS.Server.Repository.Interfaces;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-/*
-builder.Services.AddTransient<IUserServiceAsync, UserService>();
-builder.Services.AddTransient<IUserRepositoryAsync, UserRepositoryAsync>();
-*/
-
-// User의존성
-builder.Services.AddTransient<IUsersService, UsersService>();
-
+// 의존성 주입
+builder.Services.AddTransient<IUserInfoRepository, UserInfoRepository>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+
+builder.Services.AddDbContext<FmsContext>(options =>
     options.UseSqlServer(builder.Configuration
     .GetConnectionString("DefaultConnection")));
 
