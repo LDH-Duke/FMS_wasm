@@ -1,0 +1,111 @@
+﻿@page "/qrcommons"
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.Extensions.Primitives
+@using System.Text
+
+@inject NavigationManager navManager
+@inject IJSRuntime JS
+
+<!-- 유저에게 보여질 페이지 -->
+<h3>QRCommons</h3>
+
+<p>SERVICE ID : @ServiceID</p>
+<p>SITE ID : @SiteID</p>
+<p>PLANT ID : @PlantID</p>
+<p>FLOOR ID : @FloorID</p>
+<p>LOCATION ID : @LocationID</p>
+
+@code {
+
+    /// <summary>
+    /// 서비스ID
+    /// </summary>
+    private string ServiceID { get; set; }
+
+    /// <summary>
+    /// 사이트ID
+    /// </summary>
+    private string SiteID{ get; set; }
+
+    /// <summary>
+    /// 건물 ID
+    /// </summary>
+    private string PlantID{ get; set; }
+
+    /// <summary>
+    /// 층 ID
+    /// </summary>
+    private string FloorID{ get; set; }
+
+    /// <summary>
+    /// 위치ID
+    /// </summary>
+    private string LocationID{ get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        // sadf;oiasdkfeop
+        // site=1;
+        // localhost U
+        // RI
+        //c3ZpZD0xJnN0aWQ9MiZwaWQ9MyZmaWQ9NCZsaWQ9NQ ==
+        //N0aWQ9MiZwaWQ9MyZmaWQ9NCZsaWQ9NQ ==
+        // https://localhost:8888/qrcommons?c3ZpZD0xJnN0aWQ9MiZwaWQ9MyZmaWQ9NCZsaWQ9NQ==
+
+        string url = navManager.ToAbsoluteUri(navManager.Uri).ToString();
+
+        string keyword = "qrcommons?";
+        string[] querystring = url.Split(new[] { keyword }, StringSplitOptions.RemoveEmptyEntries);
+        string result = "";
+
+        if(querystring.Length > 1)
+        {
+            result = querystring[1];
+        }
+
+        //JS.InvokeVoidAsync("alert", result);
+            
+         
+     
+        
+        byte[] org = Convert.FromBase64String(result);
+        string str = Encoding.ASCII.GetString(org);
+        
+        
+        var uri = new Uri($"https://localhost:8888/qrcommons?{str}");
+        JS.InvokeVoidAsync("alert", uri);
+
+        StringValues[] param = new StringValues[5];
+        
+
+
+        
+        QueryHelpers.ParseQuery(uri.Query).TryGetValue("svid", out param[0]);
+        ServiceID = param[0]!;
+
+
+        QueryHelpers.ParseQuery(uri.Query).TryGetValue("stid", out param[1]);
+        SiteID = param[1]!;
+
+        QueryHelpers.ParseQuery(uri.Query).TryGetValue("pid", out param[2]);
+        PlantID = param[2]!;
+
+        QueryHelpers.ParseQuery(uri.Query).TryGetValue("fid", out param[3]);
+        FloorID = param[3]!;
+
+        QueryHelpers.ParseQuery(uri.Query).TryGetValue("lid", out param[4]);
+        LocationID = param[4]!;
+        
+
+
+
+        // https://localhost:8888/qrcommons?svid=5&stid=33
+        //JS.InvokeVoidAsync("alert", $"{ServiceID} // {SiteID}");
+    }
+
+    protected override void OnParametersSet()
+    {
+    }
+
+}

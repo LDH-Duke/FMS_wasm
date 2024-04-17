@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMS.Server", "FMS\Server\FMS.Server.csproj", "{AE9987A2-A428-4A10-A4C0-45C58CF3C842}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FMS.Server", "FMS\Server\FMS.Server.csproj", "{AE9987A2-A428-4A10-A4C0-45C58CF3C842}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMS.Client", "FMS\Client\FMS.Client.csproj", "{CC71DA4B-056D-4AB6-891F-BDE229A6242C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FMS.Client", "FMS\Client\FMS.Client.csproj", "{CC71DA4B-056D-4AB6-891F-BDE229A6242C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMS.Shared", "FMS\Shared\FMS.Shared.csproj", "{8E280C77-5202-4FD9-AAD9-574EC4C57D2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FMS.Shared", "FMS\Shared\FMS.Shared.csproj", "{8E280C77-5202-4FD9-AAD9-574EC4C57D2F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{E9C6B0B9-C64A-4CAB-9392-8E797411C9D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{8E280C77-5202-4FD9-AAD9-574EC4C57D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E280C77-5202-4FD9-AAD9-574EC4C57D2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E280C77-5202-4FD9-AAD9-574EC4C57D2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9C6B0B9-C64A-4CAB-9392-8E797411C9D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9C6B0B9-C64A-4CAB-9392-8E797411C9D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9C6B0B9-C64A-4CAB-9392-8E797411C9D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9C6B0B9-C64A-4CAB-9392-8E797411C9D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
