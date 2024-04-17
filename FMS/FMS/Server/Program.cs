@@ -2,16 +2,22 @@ using FMS.Server.Databases;
 using FMS.Server.Hubs;
 using FMS.Server.Repository;
 using FMS.Server.Repository.Interfaces;
+using FMS.Server.Services;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddTransient<IUserService, UserService>();
+
 
 // 의존성 주입
 builder.Services.AddTransient<IUserInfoRepository, UserInfoRepository>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+
 
 builder.Services.AddDbContext<FmsContext>(options =>
     options.UseSqlServer(builder.Configuration
@@ -79,5 +85,12 @@ app.UseRouting();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+
+
+
+SetupServices setup = new();
+await setup.SetupAdmin();
+
+
 
 app.Run();

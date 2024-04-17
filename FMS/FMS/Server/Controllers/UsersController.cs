@@ -1,4 +1,5 @@
 ﻿using FMS.Server.Repository.Interfaces;
+using FMS.Server.Services;
 using FMS.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,19 +11,27 @@ namespace FMS.Server.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IUserService dataService;
         private readonly IUserInfoRepository UserInfoRepository;
 
-        public UsersController(IUserInfoRepository _UserInfoRepository)
+        public UsersController(IUserInfoRepository _UserInfoRepository, IUserService _dataService)
         {
             UserInfoRepository = _UserInfoRepository;
+            dataService = _dataService;
         }
 
         [HttpGet]
         public async ValueTask<IEnumerable<UserInfo>> Get()
         {
+
+
+
             var temp = await UserInfoRepository.GetAllAsync();
+            var temp2 = dataService.Test();
             return temp;
         }
+
+
 
     }
 }

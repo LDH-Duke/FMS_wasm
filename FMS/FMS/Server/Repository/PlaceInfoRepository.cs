@@ -12,6 +12,7 @@ namespace FMS.Server.Repository
         public PlaceInfoRepository(FmsContext _context)
         {
             this.context = _context;
+            Console.WriteLine("참조");
         }
 
         /// <summary>

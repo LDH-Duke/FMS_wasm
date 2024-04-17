@@ -31,7 +31,7 @@ public partial class UserInfo
     /// </summary>
     [StringLength(30)]
     [Unicode(false)]
-    [Required(ErrorMessage = "비밃런호를 입력해주세요")]
+    [Required(ErrorMessage = "비밀번호를 입력해주세요")]
     public string Password { get; set; } = null!;
 
     /// <summary>
