@@ -14,10 +14,6 @@ namespace FMS.Server.Services
         }
 
         
-        public UserInfo CreateModel(UserInfo model)
-        {
-            model.UserId = model.UserId.ToLower();
-            return model;
-        }
+      
     }
 }

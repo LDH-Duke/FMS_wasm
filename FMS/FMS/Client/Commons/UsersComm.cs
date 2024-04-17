@@ -1,4 +1,5 @@
 ﻿using FMS.Shared.Models;
+using Microsoft.Extensions.Logging.Abstractions;
 using System.Text.RegularExpressions;
 
 namespace FMS.Client.Commons
@@ -10,6 +11,18 @@ namespace FMS.Client.Commons
             
         }
 
+        /// <summary>
+        /// 아이디 소문자 변환
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public string CheckID(string userid)
+        {
+            if (userid == null) return null;
+            
+            return userid.ToLower();
+        }
+        
         /// <summary>
         /// 비밀번호 체크
         /// </summary>
