@@ -1,8 +1,14 @@
 ﻿@page "/signup"
 @using FMS.Client.Pages.UserSignUp.Components
+@using FMS.Shared.Entity
 @using FMS.Shared.Models
 @inject NavigationManager Navigation
 
+<style>
+    .validation-message{
+        color
+    }
+</style>
 
 <div class="signup-container">
     <div class="signup-wrap">
@@ -15,17 +21,17 @@
             <DataAnnotationsValidator />
             <div class="signup-form">
                 <div class="signup-form-inputgroup">
-                    <InputField Label="Id" InputType="text" Placeholder="Id" @bind-Value="@user.Account" />
-                    <ValidationMessage For="@(()=>@user.Account)" />
+                    <InputField Label="Id" InputType="text" Placeholder="Id" @bind-Value="@user.UserId" />
+                    <ValidationMessage For="@(()=>@user.UserId)"/>
                     <InputField Label="Pw" InputType="password" Placeholder="Pw" @bind-Value="@user.Password" OnBlur="OnPwCheck" />
                     <ValidationMessage For="@(()=>@user.Password)" />
-                    <InputField Label="Pw Check" InputType="password" Placeholder="Pw Check" @bind-value="CheckPw"  OnBlur="OnPwCheck" />
+                    @* <InputField Label="Pw Check" InputType="password" Placeholder="Pw Check" @bind-value="CheckPw"  OnBlur="OnPwCheck" />
                     <InputField Label="Name" InputType="text" Placeholder="Name" @bind-Value="@user.Name" />
-                    <ValidationMessage For="@(()=>@user.Name)" />
+                    <ValidationMessage For="@(()=>@user.N)" />
                     <InputField Label="Email" InputType="text" Placeholder="Email" @bind-Value="@user.Email" />
                     <ValidationMessage For="@(()=>@user.Email)" />
                     <InputField Label="Phone" InputType="text" Placeholder="Phone" @bind-Value="@user.PhoneNumber" />
-                    <ValidationMessage For="@(()=>@user.PhoneNumber)" />
+                    <ValidationMessage For="@(()=>@user.PhoneNumber)" /> *@
                 </div>
                 <div class="signup-form-btngroup">
                     <button type="submit" class="signup-form-btn btn1">회원가입</button>
@@ -38,7 +44,7 @@
     private string? CheckPw = null;
     private int is_PwCheck = 2;
 
-    Users user = new Users();
+    UserInfo user = new UserInfo();
 
     /*
     * 회원가입 Submit
@@ -49,11 +55,11 @@
         try
         {
             Console.WriteLine("[회원가입][Submit] 동작");
-            Console.WriteLine("ID : " + user.Account);
+            Console.WriteLine("ID : " + user.UserId);
             Console.WriteLine("PW : " + user.Password);
-            Console.WriteLine("Name : " + user.Name);
-            Console.WriteLine("Email : " + user.Email);
-            Console.WriteLine("Phone : " + user.PhoneNumber);
+            // Console.WriteLine("Name : " + user.Name);
+            // Console.WriteLine("Email : " + user.Email);
+            // Console.WriteLine("Phone : " + user.PhoneNumber);
 
 
 

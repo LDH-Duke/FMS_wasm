@@ -1,5 +1,4 @@
-﻿
-.signup-container {
+﻿.signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,7 +42,7 @@ form 태그 input, btn 포함
 input 그룹
 */
 
-.signup-container.validation-message::deep div{
+.signup-container ::deep .validation-message{
     color : red;
 }
 

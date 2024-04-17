@@ -1,23 +1,25 @@
 ﻿using FMS.Server.Models;
 using FMS.Shared.Models;
+using FMS.Shared.Entity;
 
 namespace FMS.Server.Repository.UserRepository
 {
     public class UserRepositoryAsync : IUserRepositoryAsync
     {
         private readonly AppDbContext _context;
+        private readonly FmsContext _db;
 
-        public UserRepositoryAsync(AppDbContext context)
+        public UserRepositoryAsync(FmsContext db)
         {
-            this._context = context;
+            this._db = db;
         }
 
-        public async Task<Users> Add(Users user)
+        public async Task<UserInfo> Add(UserInfo user)
         {
             try
             {
-                _context.User.Add(user);
-                await _context.SaveChangesAsync();
+                _db.UserInfo.Add(user);
+                await _db.SaveChangesAsync();
                 return user;
             }
             catch(Exception ex)

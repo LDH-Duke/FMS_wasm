@@ -1,9 +1,10 @@
 ﻿using FMS.Shared.Models;
+using FMS.Shared.Entity;
 
 namespace FMS.Server.Repository.UserRepository
 {
     public interface IUserRepositoryAsync
     {
-        Task<Users> Add(Users user);
+        Task<UserInfo> Add(UserInfo user);
     }
 }
