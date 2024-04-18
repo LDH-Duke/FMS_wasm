@@ -11,6 +11,12 @@
            @oninput="onChangeText"
            @onblur="OnBlur"
         />
+    @if(Label == "Id"){
+        <button class="btn" type="button" @onclick="OnClick">
+            중복확인
+        </button>
+    }
+    
     
 </div>
 
@@ -21,7 +27,9 @@
     [Parameter] public string Placeholder { get; set; }
     [Parameter] public EventCallback<string> ValueChanged { get; set; }
     [Parameter] public EventCallback OnBlur{ get; set; }
+    [Parameter] public EventCallback OnClick{get;set;}
 
+    
     private async Task onChangeText(ChangeEventArgs e)
     {
         Console.WriteLine(Label);
@@ -30,4 +38,5 @@
 
         await ValueChanged.InvokeAsync(Value);
     }
+
 }

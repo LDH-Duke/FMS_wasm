@@ -1,8 +1,10 @@
 ﻿@page "/signup"
-@using FMS.Shared.Models
-@inject NavigationManager Navigation
-@using FMS.Client.Pages.UserSignUp.Components
 
+@using FMS.Shared.Models
+@using FMS.Client.Pages.UserSignUp.Components
+@using System.Text.Json 
+
+@inject NavigationManager Navigation
 @inject HttpClient httpClient
 
 <div class="signup-container">
@@ -16,13 +18,29 @@
             <DataAnnotationsValidator />
             <div class="signup-form">
                 <div class="signup-form-inputgroup">
-                    <InputField Label="Id" InputType="text" Placeholder="Id" @bind-Value="@user.UserId"/>
+                    <InputField 
+                    Label="Id" 
+                    InputType="text" 
+                    Placeholder="Id" 
+                    @bind-Value="@user.UserId"
+                    OnClick="OnDuplicateCheck"
+                    />
                     <ValidationMessage For="@(()=>@user.UserId)"/>
-                    <button @onclick="()=>OnDoubleCheck(user.UserId)">중복</button>
-                    <InputField Label="Pw" InputType="password" Placeholder="Pw" @bind-Value="@user.Password" OnBlur="OnPwCheck" />
+
+                    <InputField 
+                    Label="Pw" 
+                    InputType="password" 
+                    Placeholder="Pw" 
+                    @bind-Value="@user.Password" 
+                    OnBlur="OnPwCheck" />
                     <ValidationMessage For="@(()=>@user.Password)" />
-                   
-                    <InputField Label="Pw Check" InputType="password" Placeholder="Pw Check" @bind-value="CheckPw"  OnBlur="OnPwCheck" />
+
+                    <InputField 
+                    Label="Pw Check" 
+                    InputType="password" 
+                    Placeholder="Pw Check" 
+                    @bind-value="CheckPw" 
+                    OnBlur="OnPwCheck" />
                     @* <InputField Label="Name" InputType="text" Placeholder="Name" @bind-Value="@user.Name" />
                     <ValidationMessage For="@(()=>@user.N)" />
                     <InputField Label="Email" InputType="text" Placeholder="Email" @bind-Value="@user.Email" />
@@ -113,12 +131,19 @@
         }
     }
 
-    private async void OnDoubleCheck(string userId)
+    /*
+    * 아이디 중복검사
+    * --
+    */
+    private void OnDuplicateCheck()
     {
         try
         {
-            
-
+            var CheckId = new {UserId = user.UserId};
+            Console.WriteLine("동작");
+            Console.WriteLine(CheckId);
+            string json = JsonSerializer.Serialize(CheckId);
+            Console.WriteLine(json);
             // var res = await httpClient.PostAsync("http://localhost:8888/api/User/AddUser", userId);
             // Console.WriteLine(res);
 
