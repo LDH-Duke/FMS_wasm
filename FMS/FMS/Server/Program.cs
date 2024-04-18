@@ -18,7 +18,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 
-
 builder.Services.AddDbContext<FmsContext>(options =>
     options.UseSqlServer(builder.Configuration
     .GetConnectionString("DefaultConnection")));
@@ -60,7 +59,7 @@ app.UseCors();
 #region SIGNAL R 서비스 사용
 // SIGNAL R 서비스 사용
 app.UseResponseCompression();
-app.MapHub<ChatHub>("/chathub");
+app.MapHub<BroadcastHub>("/broadcastHub");
 #endregion
 
 // Configure the HTTP request pipeline.

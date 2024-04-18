@@ -10,6 +10,8 @@ create table PlaceInfo
 	[UpdateDT] datetime
 )
 
+
+
 /* 건물 테이블 */
 create table PlantInfo
 (
@@ -45,7 +47,7 @@ Create table LocationInfo
 	[CreateDT] datetime default(getdate()),
 	[UpdateDT] datetime,
 
-	[FloorInfo_Id] int FOREIGN KEY references FloorInfo (Id),
+	[FloorInfo_Id] int FOREIGN KEY references FloorInfo (Id)
 );
 
 /* 장비 테이블 */
@@ -57,7 +59,7 @@ Create table DeviceInfo
 	[UpdateDT] datetime,
 
 	[LocationInfo_Id] int FOREIGN KEY references LocationInfo (Id)
-)
+);
 
 
 /* 사용자 테이블 */
@@ -87,6 +89,40 @@ Create table UserInfo
 
 	[PlaceInfo_Code] varchar(25) FOREIGN KEY references PlaceInfo ([Code])
 )
+
+create table VocInfo
+(
+	[ID] int IDENTITY(1,1) primary key not null, /* VOC 발생건수 INDEX */
+	[Title] varchar(30) not null, /* 민원 제목 */
+	[Content] varchar(MAX) not null, /* 민원 내용 */
+	[Status] int default(0), /* 상태 0: 미처리 1: 처리중 2: 처리완료  */
+	[ReplyYN] bit default(0), /* 처리상태 받을건지 */
+	[CreateDT] datetime default(getdate()), /* 생성일 */
+	[UpdateDT] datetime, /* 수정일 */
+)
+
+create table VocInfo_Comment
+(
+	[ID] int IDENTITY(1,1) primary key not null, /* 형식상 PK */
+	[Content] varchar(255), /* 처리내용 */
+	[Status] int default(0), /* 0 : 미처리, 1 : 처리중, 2: 처리완료 */
+	[CreateDT] datetime default(getdate()), /* 생성일자 */
+	[UpdateDT] datetime, /* 수정일자  */
+	[VocInfo_ID] int FOREIGN KEY references VocInfo (ID), /* 민원 발생 ID 외래키 참조 */
+	[UserInfo_UserId] varchar(15) FOREIGN KEY references UserInfo ([UserId]) /* 댓글 남긴이 ID 외래키 참조 */
+)
+
+
+create table AlarmInfo
+(
+	[ID] int IDENTITY(1,1) primary key not null, /* 형식상 PK */
+	[Status] int default(0), /* 0 : 안읽음, 1 : 읽음 */
+	[CreateDT] datetime default(getdate()), /* 생성일자 */
+	[UpdateDT] datetime, /* 수정일자 */
+	[UserInfo_UserId] varchar(15) FOREIGN KEY references UserInfo ([UserId]), /* 알람 관리자 */
+	[VocInfo_ID] int FOREIGN KEY references VocInfo ([ID]) /* 민원 발생 인덱스 */
+)
+
 
 drop table DeviceInfo
 drop table FloorInfo

@@ -1,4 +1,7 @@
-﻿
+﻿@using Microsoft.AspNetCore.SignalR.Client
+
+@inject NavigationManager NavigationManager
+
 <div class="nav-container">
     <div class="nav-logo">
         <NavLink href="/">
@@ -21,6 +24,12 @@
     <div class="nav-tab">
         @* 로그인 여부 *@
         <ul class="nav-tab-wrap">
+            <!-- 알림 -->
+
+            <li class="nav-tab-item">
+                <button disabled="@(!IsConnected)">@MessageCount</button>
+            </li>
+
             <li class="nav-tab-item">
                 <NavLink class="nav-tab-link" href="sign">Sgin in</NavLink>
             </li>
@@ -29,9 +38,57 @@
             </li>
         </ul>
     </div>
-
-</div
+</div>
 
 @code {
+    private int MessageCount{ get; set; }
+
+    private HubConnection hubConnection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+                .WithUrl(NavigationManager.ToAbsoluteUri("/broadcastHub"))
+                .Build();
+
+        hubConnection.On("AlarmSelect", () =>
+        {
+            CallLoadData();
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+        await OnLoadData();
+    }
+
+    private void CallLoadData()
+    {
+        Task.Run(async () =>
+        {
+            await OnLoadData();    
+        });
+    }
+
+    protected async Task OnLoadData()
+    {
+        // api 요청 날리는것
+        // DB SELECT --> 모델로 반환
+
+
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// SignalR 연결여부
+    /// </summary>
+    public bool IsConnected => hubConnection.State == HubConnectionState.Connected;
+
+    public void Dispose()
+    {
+        _ = hubConnection.DisposeAsync();
+    }
+
+    
+
 
 }
