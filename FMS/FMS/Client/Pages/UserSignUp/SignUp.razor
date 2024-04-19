@@ -135,17 +135,19 @@
     * 아이디 중복검사
     * --
     */
-    private void OnDuplicateCheck()
+    private async void OnDuplicateCheck()
     {
         try
         {
             var CheckId = new {UserId = user.UserId};
+
+          
+
+            
+
             Console.WriteLine("동작");
-            Console.WriteLine(CheckId);
             string json = JsonSerializer.Serialize(CheckId);
-            Console.WriteLine(json);
-            // var res = await httpClient.PostAsync("http://localhost:8888/api/User/AddUser", userId);
-            // Console.WriteLine(res);
+            var res = await httpClient.PostAsJsonAsync("http://localhost:5077/api/Users/AddUser/aa",json);
 
         }
         catch(Exception err)
