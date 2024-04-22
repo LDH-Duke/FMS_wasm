@@ -1,60 +1,123 @@
 ﻿@page "/signalrexample"
 
-
-@* 향후 밖으로 빼야할듯 *@
 @using Microsoft.AspNetCore.SignalR.Client
-
 @inject NavigationManager Navigation
 @implements IAsyncDisposable
 
 <PageTitle>Index</PageTitle>
 
 
-<div class="form-group">
-    <label>
-        Message:
-        <input @bind="messageInput" size="50" />
-    </label>
+<div class="room-list">
+    @*
+    @foreach (var room in rooms)
+    {
+    <button @onclick="() => JoinRoom(room)">@room</button>
+    }
+    *@
+    <button @onclick="JoinRoom1">룸1</button>
+    <button @onclick="JoinRoom2">룸2</button>
+    <button @onclick="JoinRoom3">룸3</button>
+
+    <button @onclick="RemoveRoom1">룸1 해제</button>
+    <button @onclick="RemoveRoom2">룸2 해제</button>
+    <button @onclick="RemoveRoom3">룸3 해제</button>
+
+
 </div>
-<button @onclick="Send" disabled="@(!IsConnected)">Send</button>
 
-<hr>
+<div class="chat">
 
-<ul id="messagesList">
     @foreach (var message in messages)
     {
         <li>@message</li>
     }
-</ul>
+
+    <input type="text" @bind-value="messageInput">
+    <button @onclick="Send">Send</button>
+</div>
 
 @code {
     private HubConnection? hubConnection;
+    //private List<string> rooms = new List<string>();
     private List<string> messages = new List<string>();
     private string? userInput;
     private string? messageInput;
 
+    public string type { get; set; }
     protected override async Task OnInitializedAsync()
     {
+        // 관리자 ID
+
         hubConnection = new HubConnectionBuilder()
-            .WithUrl(Navigation.ToAbsoluteUri("/broadcastHub"))
+            .WithUrl(Navigation.ToAbsoluteUri("/chathub"))
             .Build();
 
-        hubConnection.On("AlarmSelect", () =>
+        hubConnection.On<string>("ReceiveMessage", (message) =>
         {
-         
-            messages.Add("encodedMsg");
+            messages.Add(message);
             StateHasChanged();
         });
+
+        //rooms.AddRange(new[] { "Room1", "Room2", "Room3" });
 
         await hubConnection.StartAsync();
     }
 
+    int i = 0;
+    private async Task JoinRoom1()
+    {
+        /* testid 부분은 필요없을수도 */
+        // - 현재 세션의 ID
+        type = "Room1";
+        await hubConnection.InvokeAsync("JoinRoomAsync", "testid", type);
+    }
+    private async Task JoinRoom2()
+    {
+        /* testid 부분은 필요없을수도 */
+        type = "Room2";
+        await hubConnection.InvokeAsync("JoinRoomAsync", "testid", type);
+    }
+    private async Task JoinRoom3()
+    {
+        /* testid 부분은 필요없을수도 */
+        type = "Room3";
+        await hubConnection.InvokeAsync("JoinRoomAsync", "testid", type);
+    }
+    private async Task RemoveRoom1()
+    {
+        /* testid 부분은 필요없을수도 */
+        type = "Room1";
+        await hubConnection.InvokeAsync("RemoveRoomAsync", "testid", type);
+    }
+
+    private async Task RemoveRoom2()
+    {
+        /* testid 부분은 필요없을수도 */
+        type = "Room2";
+        await hubConnection.InvokeAsync("RemoveRoomAsync", "testid", type);
+    }
+
+    private async Task RemoveRoom3()
+    {
+        /* testid 부분은 필요없을수도 */
+        type = "Room3";
+        await hubConnection.InvokeAsync("RemoveRoomAsync", "testid", type);
+    }
+
     private async Task Send()
     {
-        if (hubConnection is not null)
+        if (!string.IsNullOrEmpty(messageInput))
         {
-            await hubConnection.SendAsync("SendMessage");
+            await hubConnection.InvokeAsync("SendMessageAsync", messageInput, GetCurrentRoom());
+            messages.Add($"You: {messageInput}");
+            messageInput = "";
+            StateHasChanged();
         }
+    }
+
+    private string GetCurrentRoom()
+    {
+        return type;
     }
 
     public bool IsConnected =>

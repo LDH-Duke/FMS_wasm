@@ -25,15 +25,32 @@ builder.Services.AddDbContext<FmsContext>(options =>
     options.UseSqlServer(builder.Configuration
     .GetConnectionString("DefaultConnection")));
 
+#region SIGNAL R ¼­ºñ½º µî·Ï
+// SIGNAL R ¼­ºñ½º µî·Ï
+builder.Services.AddSignalR(hubOptions =>
+{
+    hubOptions.EnableDetailedErrors = true;
+    hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(1);
+});
 
+builder.Services.AddResponseCompression(opts =>
+{
+    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+        new[] { "application/octet-stream" });
+});
+
+<<<<<<< HEAD
 
 #region SIGNAL R CORS ï¿½ï¿½ï¿½
 // SIGNAL R CORS ï¿½ï¿½ï¿½
+=======
+// SIGNAL R CORS µî·Ï
+>>>>>>> origin/yw_home
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("https://localhost:7191")
+        policy.WithOrigins("https://localhost:8888")
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials()
@@ -42,6 +59,7 @@ builder.Services.AddCors(options =>
 });
 #endregion
 
+<<<<<<< HEAD
 #region SIGNAL R ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 // SIGNAL R ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 builder.Services.AddSignalR();
@@ -51,6 +69,9 @@ builder.Services.AddResponseCompression(opts =>
         new[] { "application/octet-stream" });
 });
 #endregion
+=======
+
+>>>>>>> origin/yw_home
 
 
 var app = builder.Build();
