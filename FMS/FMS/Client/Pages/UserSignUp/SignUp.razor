@@ -1,13 +1,11 @@
 ﻿@page "/signup"
-@using FMS.Shared.Models
-@inject NavigationManager Navigation
-@using FMS.Client.Pages.UserSignUp.Components
 
-<style>
-    .validation-message{
-        color
-    }
-</style>
+@using FMS.Shared.Models
+@using FMS.Client.Pages.UserSignUp.Components
+@using System.Text.Json 
+
+@inject NavigationManager Navigation
+@inject HttpClient httpClient
 
 <div class="signup-container">
     <div class="signup-wrap">
@@ -20,13 +18,30 @@
             <DataAnnotationsValidator />
             <div class="signup-form">
                 <div class="signup-form-inputgroup">
-                    <InputField Label="Id" InputType="text" Placeholder="Id" @bind-Value="@user.UserId"/>
+                    <InputField 
+                    Label="Id" 
+                    InputType="text" 
+                    Placeholder="Id" 
+                    @bind-Value="@user.UserId"
+                    OnClick="OnDuplicateCheck"
+                    />
                     <ValidationMessage For="@(()=>@user.UserId)"/>
-                    <InputField Label="Pw" InputType="password" Placeholder="Pw" @bind-Value="@user.Password" OnBlur="OnPwCheck" />
+
+                    <InputField 
+                    Label="Pw" 
+                    InputType="password" 
+                    Placeholder="Pw" 
+                    @bind-Value="@user.Password" 
+                    OnBlur="OnPwCheck" />
                     <ValidationMessage For="@(()=>@user.Password)" />
-                   
-                    @* <InputField Label="Pw Check" InputType="password" Placeholder="Pw Check" @bind-value="CheckPw"  OnBlur="OnPwCheck" />
-                    <InputField Label="Name" InputType="text" Placeholder="Name" @bind-Value="@user.Name" />
+
+                    <InputField 
+                    Label="Pw Check" 
+                    InputType="password" 
+                    Placeholder="Pw Check" 
+                    @bind-value="CheckPw" 
+                    OnBlur="OnPwCheck" />
+                    @* <InputField Label="Name" InputType="text" Placeholder="Name" @bind-Value="@user.Name" />
                     <ValidationMessage For="@(()=>@user.N)" />
                     <InputField Label="Email" InputType="text" Placeholder="Email" @bind-Value="@user.Email" />
                     <ValidationMessage For="@(()=>@user.Email)" />
@@ -39,12 +54,24 @@
             </div>
         </EditForm>
     </div>
+    @if (is_modal)
+    {
+        <ErrModal Title="회원가입 Err" Content="@err" OnClose="@OnModalClose" />
+    }
+
 </div>
 @code {
     private string? CheckPw = null;
     private int is_PwCheck = 2;
-
+    private bool is_modal = false;
+    private string err = string.Empty;
     UserInfo user = new UserInfo();
+
+    private void OnModalClose()
+    {
+        is_modal = false;
+        StateHasChanged();
+    }
 
     /*
     * 회원가입 Submit
@@ -61,7 +88,13 @@
             // Console.WriteLine("Email : " + user.Email);
             // Console.WriteLine("Phone : " + user.PhoneNumber);
 
-
+            //회원가입 조건
+            if(is_PwCheck != 1)
+            {
+                is_modal = true;
+                err = "비밀번호가 일치하지 않습니다.";
+                return;
+            }
 
             Navigation.NavigateTo("/signin");
         }
@@ -83,6 +116,7 @@
             {
                 is_PwCheck = 1;
                 Console.WriteLine("비밀번호 일치");
+
             }
             else
             {
@@ -94,6 +128,32 @@
         {
             Console.WriteLine("[회원가입][OnPwCheck] \n"+e);
             throw e;
+        }
+    }
+
+    /*
+    * 아이디 중복검사
+    * --
+    */
+    private async void OnDuplicateCheck()
+    {
+        try
+        {
+            var CheckId = new {UserId = user.UserId};
+
+          
+
+            
+
+            Console.WriteLine("동작");
+            string json = JsonSerializer.Serialize(CheckId);
+            var res = await httpClient.PostAsJsonAsync("http://localhost:5077/api/Users/AddUser/aa",json);
+
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine("[회원가입][중복검사] 중복확인 에러! \n" + err);
+            
         }
     }
 

@@ -12,6 +12,9 @@ builder.Services.AddTransient<IUserService, UserService>();
 
 
 // ÀÇÁ¸¼º ÁÖÀÔ
+=======
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+>>>>>>> origin/main
 builder.Services.AddTransient<IUserInfoRepository, UserInfoRepository>();
 
 builder.Services.AddControllersWithViews();
@@ -23,8 +26,9 @@ builder.Services.AddDbContext<FmsContext>(options =>
     .GetConnectionString("DefaultConnection")));
 
 
-#region SIGNAL R CORS µî·Ï
-// SIGNAL R CORS µî·Ï
+
+#region SIGNAL R CORS ï¿½ï¿½ï¿½
+// SIGNAL R CORS ï¿½ï¿½ï¿½
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -38,8 +42,8 @@ builder.Services.AddCors(options =>
 });
 #endregion
 
-#region SIGNAL R ¼­ºñ½º µî·Ï
-// SIGNAL R ¼­ºñ½º µî·Ï
+#region SIGNAL R ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+// SIGNAL R ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 builder.Services.AddSignalR();
 builder.Services.AddResponseCompression(opts =>
 {
@@ -51,13 +55,13 @@ builder.Services.AddResponseCompression(opts =>
 
 var app = builder.Build();
 
-#region SIGNAL CORS Çã¿ë
-// CORS Çã¿ë
+#region SIGNAL CORS ï¿½ï¿½ï¿½
+// CORS ï¿½ï¿½ï¿½
 app.UseCors();
 #endregion
 
-#region SIGNAL R ¼­ºñ½º »ç¿ë
-// SIGNAL R ¼­ºñ½º »ç¿ë
+#region SIGNAL R ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+// SIGNAL R ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 app.UseResponseCompression();
 app.MapHub<BroadcastHub>("/broadcastHub");
 #endregion
