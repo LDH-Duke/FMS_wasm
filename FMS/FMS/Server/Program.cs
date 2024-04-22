@@ -22,14 +22,26 @@ builder.Services.AddDbContext<FmsContext>(options =>
     options.UseSqlServer(builder.Configuration
     .GetConnectionString("DefaultConnection")));
 
+#region SIGNAL R 서비스 등록
+// SIGNAL R 서비스 등록
+builder.Services.AddSignalR(hubOptions =>
+{
+    hubOptions.EnableDetailedErrors = true;
+    hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(1);
+});
 
-#region SIGNAL R CORS 등록
+builder.Services.AddResponseCompression(opts =>
+{
+    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+        new[] { "application/octet-stream" });
+});
+
 // SIGNAL R CORS 등록
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("https://localhost:7191")
+        policy.WithOrigins("https://localhost:8888")
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials()
@@ -38,15 +50,7 @@ builder.Services.AddCors(options =>
 });
 #endregion
 
-#region SIGNAL R 서비스 등록
-// SIGNAL R 서비스 등록
-builder.Services.AddSignalR();
-builder.Services.AddResponseCompression(opts =>
-{
-    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-        new[] { "application/octet-stream" });
-});
-#endregion
+
 
 
 var app = builder.Build();
