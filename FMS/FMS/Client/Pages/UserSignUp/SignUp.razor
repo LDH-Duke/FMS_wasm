@@ -1,12 +1,11 @@
 ﻿@page "/signup"
 
-@using FMS.Shared.Models
 @using FMS.Client.Pages.UserSignUp.Components
 @using System.Text.Json 
 
 @inject NavigationManager Navigation
 @inject HttpClient httpClient
-
+<!--
 <div class="signup-container">
     <div class="signup-wrap">
         <div class="signup-title">
@@ -54,29 +53,33 @@
             </div>
         </EditForm>
     </div>
+
     @if (is_modal)
     {
         <ErrModal Title="회원가입 Err" Content="@err" OnClose="@OnModalClose" />
     }
-
 </div>
+-->
+
 @code {
+   
     private string? CheckPw = null;
     private int is_PwCheck = 2;
     private bool is_modal = false;
     private string err = string.Empty;
-    UserInfo user = new UserInfo();
-
+    //Userinfo user = new Userinfo();
+    <!--
     private void OnModalClose()
     {
         is_modal = false;
         StateHasChanged();
     }
-
+    -->
     /*
     * 회원가입 Submit
     * --
     */
+   <!--
     private void Submit()
     {
         try
@@ -103,11 +106,13 @@
             Console.WriteLine("[Sign Up] [Submit] 회원가입 에러 \n" + err);
         }
     }
-
+    -->
      /*
     * 비밀번호 확인
     * --
     */
+
+   <!--
     private void OnPwCheck()
     {
         try
@@ -130,16 +135,18 @@
             throw e;
         }
     }
-
+    -->
     /*
     * 아이디 중복검사
     * --
     */
+
+   <!--
     private async void OnDuplicateCheck()
     {
         try
         {
-            var CheckId = new {UserId = user.UserId};
+            var CheckId = new {UserId = user.Userid};
 
           
 
@@ -156,6 +163,7 @@
             
         }
     }
+    -->
 
 }
 

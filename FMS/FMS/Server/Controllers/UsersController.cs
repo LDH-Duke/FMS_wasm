@@ -1,5 +1,6 @@
 ﻿using FMS.Server.Repository.Interfaces;
 using FMS.Server.Services;
+using FMS.Shared.Model;
 using FMS.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace FMS.Server.Controllers
         }
 
         [HttpGet]
-        public async ValueTask<IEnumerable<UserInfo>> Get()
+        public async ValueTask<IEnumerable<Userinfo>> Get()
         {
             var temp = await UserInfoRepository.GetAllAsync();
             //var temp2 = dataService.Test();
@@ -31,8 +32,7 @@ namespace FMS.Server.Controllers
         }
 
 
-<<<<<<< HEAD
-=======
+
         [HttpPost]
         [Route("aa")]
         public async Task<IActionResult> AddUser()
@@ -55,7 +55,7 @@ namespace FMS.Server.Controllers
                 return BadRequest("Error occurred while processing data.");
             }
         }
->>>>>>> origin/main
+
 
     }
 }

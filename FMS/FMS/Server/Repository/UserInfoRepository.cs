@@ -1,6 +1,6 @@
 ﻿using FMS.Server.Databases;
 using FMS.Server.Repository.Interfaces;
-using FMS.Shared.Models;
+using FMS.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace FMS.Server.Repository
@@ -19,11 +19,11 @@ namespace FMS.Server.Repository
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async ValueTask<UserInfo> AddAsync(UserInfo model)
+        public async ValueTask<Userinfo> AddAsync(Userinfo model)
         {
             try
             {
-                context.UserInfos.Add(model);
+                context.Userinfos.Add(model);
                 await context.SaveChangesAsync();
                 return model;
             }
@@ -42,10 +42,10 @@ namespace FMS.Server.Repository
         {
             try
             {
-                UserInfo? model = await context.UserInfos.FirstOrDefaultAsync(m => m.UserId == userid);
+                Userinfo? model = await context.Userinfos.FirstOrDefaultAsync(m => m.Userid == userid);
                 if (model != null)
                 {
-                    context.UserInfos.Remove(model);
+                    context.Userinfos.Remove(model);
                     return await context.SaveChangesAsync() > 0 ? true : false;
                 }
                 else
@@ -62,11 +62,11 @@ namespace FMS.Server.Repository
         /// 수정
         /// </summary>
         /// <returns></returns>
-        public async ValueTask<bool> EditAsync(UserInfo model)
+        public async ValueTask<bool> EditAsync(Userinfo model)
         {
             try
             {
-                context.UserInfos.Update(model);
+                context.Userinfos.Update(model);
                 return await context.SaveChangesAsync() > 0 ? true : false;
             }
             catch(Exception ex)
@@ -79,11 +79,11 @@ namespace FMS.Server.Repository
         /// 전체조회
         /// </summary>
         /// <returns></returns>
-        public async ValueTask<List<UserInfo>> GetAllAsync()
+        public async ValueTask<List<Userinfo>> GetAllAsync()
         {
             try
             {
-                return await context.UserInfos.ToListAsync();
+                return await context.Userinfos.ToListAsync();
             }
             catch(Exception ex)
             {
@@ -96,11 +96,11 @@ namespace FMS.Server.Repository
         /// </summary>
         /// <param name="userid"></param>
         /// <returns></returns>
-        public async ValueTask<UserInfo> GetByUserIdAsync(string userid)
+        public async ValueTask<Userinfo> GetByUserIdAsync(string userid)
         {
             try
             {
-                UserInfo? model = await context.UserInfos.FirstOrDefaultAsync(m => m.UserId == userid);
+                Userinfo? model = await context.Userinfos.FirstOrDefaultAsync(m => m.Userid == userid);
                 if(model != null)
                 {
                     return model;

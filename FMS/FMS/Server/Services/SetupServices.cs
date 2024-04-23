@@ -1,7 +1,7 @@
 ﻿using FMS.Server.Databases;
 using FMS.Server.Repository;
 using FMS.Server.Repository.Interfaces;
-using FMS.Shared.Models;
+using FMS.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace FMS.Server.Services
@@ -17,28 +17,28 @@ namespace FMS.Server.Services
 
         public async ValueTask SetupAdmin()
         {
-            UserInfo? model = await context.UserInfos.FirstOrDefaultAsync(m => m.UserId == "admin");
+            Userinfo? model = await context.Userinfos.FirstOrDefaultAsync(m => m.Userid == "admin");
 
             if (model == null)
             { 
-                model = new UserInfo();
-                model.UserId = "admin";
+                model = new Userinfo();
+                model.Userid = "admin";
                 model.Password = "stecdev1234!";
-                model.IsAdmin = true;
-                model.PermPlace = true;
-                model.PermDevice = true;
-                model.PermMaterial = true;
-                model.PermEnergy = true;
-                model.PermAdm = true;
-                model.PermComp = true;
-                model.PermConst = true;
-                model.PermClaim = true;
-                model.PermSys = true;
-                model.PermImployee = true;
-                model.PermLawck = true;
-                model.PermLawedu = true;
+                model.AdminYn = true;
+                model.PermPlace = 2;
+                model.PermDevice = 2;
+                model.PermMaterial = 2;
+                model.PermEnergy = 2;
+                model.PermAdm = 2;
+                model.PermComp = 2;
+                model.PermConst = 2;
+                model.PermClaim = 2;
+                model.PermSys = 2;
+                model.PermImployee = 2;
+                model.PermLawck = 2;
+                model.PermLawedu = 2;
 
-                context.UserInfos.Add(model);
+                context.Userinfos.Add(model);
                 await context.SaveChangesAsync();
             }
 

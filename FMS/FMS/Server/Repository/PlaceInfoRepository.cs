@@ -1,6 +1,6 @@
 ﻿using FMS.Server.Databases;
 using FMS.Server.Repository.Interfaces;
-using FMS.Shared.Models;
+using FMS.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace FMS.Server.Repository
@@ -20,11 +20,11 @@ namespace FMS.Server.Repository
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async ValueTask<PlaceInfo> AddAsync(PlaceInfo model)
+        public async ValueTask<Placeinfo> AddAsync(Placeinfo model)
         {
             try
             {
-                context.PlaceInfos.Add(model);
+                context.Placeinfos.Add(model);
                 await context.SaveChangesAsync();
 
                 return model;
@@ -44,10 +44,10 @@ namespace FMS.Server.Repository
         {
             try
             {
-                PlaceInfo? model = await context.PlaceInfos.FirstOrDefaultAsync(m => m.Code == code);
+                Placeinfo? model = await context.Placeinfos.FirstOrDefaultAsync(m => m.Code == code);
                 if (model != null)
                 {
-                    context.PlaceInfos.Remove(model);
+                    context.Placeinfos.Remove(model);
                     return await context.SaveChangesAsync() > 0 ? true : false;
                 }
                 else
@@ -65,11 +65,11 @@ namespace FMS.Server.Repository
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async ValueTask<bool> EditAsync(PlaceInfo model)
+        public async ValueTask<bool> EditAsync(Placeinfo model)
         {
             try
             {
-                context.PlaceInfos.Update(model);
+                context.Placeinfos.Update(model);
                 return await context.SaveChangesAsync() > 0 ? true : false;
             }catch(Exception ex)
             {
@@ -81,11 +81,11 @@ namespace FMS.Server.Repository
         /// 전체조회
         /// </summary>
         /// <returns></returns>
-        public async ValueTask<List<PlaceInfo>> GetAllAsync()
+        public async ValueTask<List<Placeinfo>> GetAllAsync()
         {
             try
             {
-                return await context.PlaceInfos.ToListAsync();
+                return await context.Placeinfos.ToListAsync();
             }
             catch(Exception ex) 
             {
@@ -98,11 +98,11 @@ namespace FMS.Server.Repository
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public async ValueTask<PlaceInfo> GetByUserIdAsync(string code)
+        public async ValueTask<Placeinfo> GetByUserIdAsync(string code)
         {
             try
             {
-                PlaceInfo? model = await context.PlaceInfos.FirstOrDefaultAsync(m => m.Code == code);
+				Placeinfo? model = await context.Placeinfos.FirstOrDefaultAsync(m => m.Code == code);
                 if (model != null)
                 {
                     return model;
