@@ -18,10 +18,10 @@ public partial class Placeinfo
     [Unicode(false)]
     public string Code { get; set; } = null!;
 
-    [Column("CONTRACT_NUM")]
+    [Column("CONTRACTNUM")]
     [StringLength(45)]
     [Unicode(false)]
-    public string ContractNum { get; set; } = null!;
+    public string Contractnum { get; set; } = null!;
 
     [Column("NAME")]
     [StringLength(255)]
@@ -36,15 +36,20 @@ public partial class Placeinfo
     [Column("DEL_YN")]
     public bool? DelYn { get; set; }
 
-    [Column("CREATE_UESRID")]
+    [Column("CREATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
-    public string? CreateUesrid { get; set; }
+    public string? CreateUser { get; set; }
 
-    [Column("UPDATE_ID")]
+    [Column("UPDATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
-    public string? UpdateId { get; set; }
+    public string? UpdateUser { get; set; }
+
+    [Column("DELETE_USER")]
+    [StringLength(15)]
+    [Unicode(false)]
+    public string? DeleteUser { get; set; }
 
     [Column("CREATE_DT", TypeName = "datetime")]
     public DateTime? CreateDt { get; set; }

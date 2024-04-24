@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FMS.Shared.Model;
 
-[Table("MATERIALINFO_INVENTORY")]
-public partial class MaterialinfoInventory
+[Table("TOTAL_INVENTORY")]
+public partial class TotalInventory
 {
     [Key]
     [Column("ID")]
@@ -16,24 +16,26 @@ public partial class MaterialinfoInventory
     [Column("INCOMING_NUM")]
     public int IncomingNum { get; set; }
 
-    [Column("OUTGOING")]
-    public int Outgoing { get; set; }
-
     [Column("PRICE")]
     public int Price { get; set; }
 
     [Column("DEL_YN")]
     public bool? DelYn { get; set; }
 
-    [Column("CREATE_UESRID")]
+    [Column("CREATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
-    public string? CreateUesrid { get; set; }
+    public string? CreateUser { get; set; }
 
-    [Column("UPDATE_ID")]
+    [Column("UPDATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
-    public string? UpdateId { get; set; }
+    public string? UpdateUser { get; set; }
+
+    [Column("DELETE_USER")]
+    [StringLength(15)]
+    [Unicode(false)]
+    public string? DeleteUser { get; set; }
 
     [Column("CREATE_DT", TypeName = "datetime")]
     public DateTime? CreateDt { get; set; }
@@ -47,7 +49,16 @@ public partial class MaterialinfoInventory
     [Column("METERIALINFO_ID")]
     public int? MeterialinfoId { get; set; }
 
+    [Column("BUILDINGINFO_CODE")]
+    [StringLength(25)]
+    [Unicode(false)]
+    public string? BuildinginfoCode { get; set; }
+
+    [ForeignKey("BuildinginfoCode")]
+    [InverseProperty("TotalInventories")]
+    public virtual Buildinginfo? BuildinginfoCodeNavigation { get; set; }
+
     [ForeignKey("MeterialinfoId")]
-    [InverseProperty("MaterialinfoInventories")]
+    [InverseProperty("TotalInventories")]
     public virtual Materialinfo? Meterialinfo { get; set; }
 }

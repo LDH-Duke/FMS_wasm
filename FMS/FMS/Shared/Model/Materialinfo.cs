@@ -46,15 +46,20 @@ public partial class Materialinfo
     [Column("DEL_YN")]
     public bool? DelYn { get; set; }
 
-    [Column("CREATE_UESRID")]
+    [Column("CREATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
-    public string? CreateUesrid { get; set; }
+    public string? CreateUser { get; set; }
 
-    [Column("UPDATE_ID")]
+    [Column("UPDATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
-    public string? UpdateId { get; set; }
+    public string? UpdateUser { get; set; }
+
+    [Column("DELETE_USER")]
+    [StringLength(15)]
+    [Unicode(false)]
+    public string? DeleteUser { get; set; }
 
     [Column("CREATE_DT", TypeName = "datetime")]
     public DateTime? CreateDt { get; set; }
@@ -65,13 +70,6 @@ public partial class Materialinfo
     [Column("DELETE_DT", TypeName = "datetime")]
     public DateTime? DeleteDt { get; set; }
 
-    [Column("ROOMINFO_ID")]
-    public int? RoominfoId { get; set; }
-
     [InverseProperty("Meterialinfo")]
-    public virtual ICollection<MaterialinfoInventory> MaterialinfoInventories { get; set; } = new List<MaterialinfoInventory>();
-
-    [ForeignKey("RoominfoId")]
-    [InverseProperty("Materialinfos")]
-    public virtual Roominfo? Roominfo { get; set; }
+    public virtual ICollection<TotalInventory> TotalInventories { get; set; } = new List<TotalInventory>();
 }

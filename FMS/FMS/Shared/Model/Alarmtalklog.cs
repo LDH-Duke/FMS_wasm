@@ -31,15 +31,20 @@ public partial class Alarmtalklog
     [Column("DEL_YN")]
     public bool? DelYn { get; set; }
 
-    [Column("CREATE_UESRID")]
+    [Column("CREATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
-    public string? CreateUesrid { get; set; }
+    public string? CreateUser { get; set; }
 
-    [Column("UPDATE_ID")]
+    [Column("UPDATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
-    public string? UpdateId { get; set; }
+    public string? UpdateUser { get; set; }
+
+    [Column("DELETE_USER")]
+    [StringLength(15)]
+    [Unicode(false)]
+    public string? DeleteUser { get; set; }
 
     [Column("CREATE_DT", TypeName = "datetime")]
     public DateTime? CreateDt { get; set; }

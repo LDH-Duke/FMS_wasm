@@ -6,32 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FMS.Shared.Model;
 
-[Table("VOCINFO")]
-public partial class Vocinfo
+[Table("ROOM_INVENTORY")]
+public partial class RoomInventory
 {
     [Key]
     [Column("ID")]
     public int Id { get; set; }
 
-    [Column("TITLE")]
-    [StringLength(30)]
-    [Unicode(false)]
-    public string Title { get; set; } = null!;
-
-    [Column("CONTENT")]
-    [Unicode(false)]
-    public string Content { get; set; } = null!;
-
-    [Column("STATUS")]
-    public int? Status { get; set; }
-
-    [Column("REPLY_YN")]
-    public bool? ReplyYn { get; set; }
-
-    [Column("PHONENUMBER")]
-    [StringLength(20)]
-    [Unicode(false)]
-    public string? Phonenumber { get; set; }
+    [Column("ROM_MATERIAL_NUM")]
+    public int RomMaterialNum { get; set; }
 
     [Column("DEL_YN")]
     public bool? DelYn { get; set; }
@@ -60,9 +43,19 @@ public partial class Vocinfo
     [Column("DELETE_DT", TypeName = "datetime")]
     public DateTime? DeleteDt { get; set; }
 
-    [InverseProperty("Vocinfo")]
-    public virtual ICollection<Alarminfo> Alarminfos { get; set; } = new List<Alarminfo>();
+    [Column("ROOMINFO_ID")]
+    public int? RoominfoId { get; set; }
 
-    [InverseProperty("Vocinfo")]
-    public virtual ICollection<VocinfoComment> VocinfoComments { get; set; } = new List<VocinfoComment>();
+    [Column("BUILDINGINFO_CODE")]
+    [StringLength(25)]
+    [Unicode(false)]
+    public string? BuildinginfoCode { get; set; }
+
+    [ForeignKey("BuildinginfoCode")]
+    [InverseProperty("RoomInventories")]
+    public virtual Buildinginfo? BuildinginfoCodeNavigation { get; set; }
+
+    [ForeignKey("RoominfoId")]
+    [InverseProperty("RoomInventories")]
+    public virtual Roominfo? Roominfo { get; set; }
 }
