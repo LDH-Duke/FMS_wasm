@@ -1,4 +1,4 @@
-﻿using FMS.Shared.Models;
+﻿using FMS.Shared.Model;
 
 namespace FMS.Server.Repository.Interfaces
 {
@@ -9,13 +9,13 @@ namespace FMS.Server.Repository.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ValueTask<UserInfo> AddAsync(UserInfo model);
+        ValueTask<Userinfo> AddAsync(Userinfo model);
 
         /// <summary>
         /// 전체조회 (비동기)
         /// </summary>
         /// <returns></returns>
-        ValueTask<List<UserInfo>> GetAllAsync();
+        ValueTask<List<Userinfo>> GetAllAsync();
 
 
         /// <summary>
@@ -23,13 +23,13 @@ namespace FMS.Server.Repository.Interfaces
         /// </summary>
         /// <param name="userid"></param>
         /// <returns></returns>
-        ValueTask<UserInfo> GetByUserIdAsync(string userid);
+        ValueTask<Userinfo> GetByUserIdAsync(string userid);
 
         /// <summary>
         /// 수정 (비동기)
         /// </summary>
         /// <returns></returns>
-        ValueTask<bool> EditAsync(UserInfo model);
+        ValueTask<bool> EditAsync(Userinfo model);
 
         /// <summary>
         /// 삭제 (비동기)

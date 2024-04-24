@@ -1,7 +1,7 @@
 ﻿using FMS.Server.Repository.Interfaces;
 using FMS.Server.Services;
 using FMS.Shared.Model;
-using FMS.Shared.Models;
+using FMS.Shared.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;

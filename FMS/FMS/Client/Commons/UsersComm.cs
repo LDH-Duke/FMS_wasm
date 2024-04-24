@@ -1,4 +1,4 @@
-﻿using FMS.Shared.Models;
+﻿using FMS.Shared.Model;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Text.RegularExpressions;
 

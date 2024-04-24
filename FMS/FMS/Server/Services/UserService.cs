@@ -1,5 +1,5 @@
 ﻿using FMS.Server.Databases;
-using FMS.Shared.Models;
+using FMS.Shared.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace FMS.Server.Services
