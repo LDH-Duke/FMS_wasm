@@ -1,4 +1,4 @@
-
+@using SvgBlazor;
 
 <div class="drawer-container">
     <ul class="drawer-wrap">
@@ -9,7 +9,11 @@
                     class="drawer-link"
                     href = "@(category.Url != null ? category.Url : null)"
                 >
-                    @category.Name
+                <SvgImage Source="/img/my-svg-image.svg" Width="100" Height="100" />
+
+                    <span>
+                        @category.Name
+                    </span>
                 </NavLink>
                 @if(category.SubCategory != null)
                 {
@@ -19,7 +23,6 @@
                             <li class="drawer-sub-item">
                                 <NavLink 
                                     class="drawer-link"
-
                                 >
                                 @subcategory.Name                                
                                 </NavLink>
@@ -41,6 +44,7 @@
             public string? Url { get; set; }
             public List<Category>? SubCategory { get; set; }
             public bool IsDropDown { get; set; } = false;
+            public string? SvgImgUrl {get; set;}
         }
 
     List<Category> CategoryList = new List<Category>
@@ -48,11 +52,13 @@
         new Category
         {
             Name="건물정보",
-            Url = "/building"
+            Url = "/building",
+            SvgImgUrl = "Client/wwwroot/img/drawer/building.svg"
         },
          new Category
         {
             Name = "설비유지관리",
+            SvgImgUrl = "Client/wwwroot/img/drawer/building.svg",
             SubCategory = new List<Category>
             {
                 new Category{Name="기계", Url="/equipment/machine"},
@@ -69,6 +75,7 @@
          new Category
         {
             Name = "자재관리",
+            SvgImgUrl = "Client/wwwroot/img/drawer/building.svg",
             SubCategory = new List<Category>
             {
                 new Category{Name="자재목록", Url="/material/list"},
@@ -79,6 +86,7 @@
         new Category
         {
             Name = "에너지관리",
+            SvgImgUrl = "Client/wwwroot/img/drawer/building.svg",
             SubCategory = new List<Category>
             {
                 new Category{Name="전기", Url="/energy/electronic"},
@@ -92,6 +100,7 @@
         new Category
         {
             Name = "사용자관리",
+            SvgImgUrl = "Client/wwwroot/img/drawer/building.svg",
             SubCategory = new List<Category>
             {
                 new Category{Name="목록", Url="/user/current"},
