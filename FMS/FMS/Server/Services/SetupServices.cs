@@ -25,6 +25,7 @@ namespace FMS.Server.Services
                 model.Userid = "admin";
                 model.Password = "stecdev1234!";
                 model.AdminYn = true;
+                model.AlarmYn = false;
                 model.PermPlace = 2;
                 model.PermDevice = 2;
                 model.PermMaterial = 2;
@@ -37,6 +38,8 @@ namespace FMS.Server.Services
                 model.PermImployee = 2;
                 model.PermLawck = 2;
                 model.PermLawedu = 2;
+                model.Status = true;
+                model.CreateUser = "관리자";
 
                 context.Userinfos.Add(model);
                 await context.SaveChangesAsync();
