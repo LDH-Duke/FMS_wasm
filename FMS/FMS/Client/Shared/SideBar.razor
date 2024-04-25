@@ -6,11 +6,28 @@
         {
             <li class="drawer-item">
                 <NavLink 
-                class="drawer-link"
-                href = "@(category.Url != null ? category.Url : null)"
+                    class="drawer-link"
+                    href = "@(category.Url != null ? category.Url : null)"
                 >
                     @category.Name
                 </NavLink>
+                @if(category.SubCategory != null)
+                {
+                    <ul class="drawer-sub-wrap">
+                        @foreach(var subcategory in category.SubCategory)
+                        {
+                            <li class="drawer-sub-item">
+                                <NavLink 
+                                    class="drawer-link"
+
+                                >
+                                @subcategory.Name                                
+                                </NavLink>
+                            </li>
+                        }
+                        
+                    </ul>
+                }
             </li>
         }
     </ul>
