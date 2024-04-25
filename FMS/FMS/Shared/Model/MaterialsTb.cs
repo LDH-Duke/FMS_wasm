@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FMS.Shared.Model;
 
-[Table("MATERIALINFO")]
-public partial class Materialinfo
+[Table("MATERIALS_TB")]
+public partial class MaterialsTb
 {
     [Key]
     [Column("ID")]
@@ -43,33 +43,33 @@ public partial class Materialinfo
     [Unicode(false)]
     public string? ManufacturingComp { get; set; }
 
-    [Column("DEL_YN")]
-    public bool? DelYn { get; set; }
+    [Column("CREATE_DT", TypeName = "datetime")]
+    public DateTime? CreateDt { get; set; }
 
     [Column("CREATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
     public string? CreateUser { get; set; }
 
+    [Column("UPDATE_DT", TypeName = "datetime")]
+    public DateTime? UpdateDt { get; set; }
+
     [Column("UPDATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
     public string? UpdateUser { get; set; }
 
-    [Column("DELETE_USER")]
+    [Column("DEL_DT", TypeName = "datetime")]
+    public DateTime? DelDt { get; set; }
+
+    [Column("DEL_USER")]
     [StringLength(15)]
     [Unicode(false)]
-    public string? DeleteUser { get; set; }
+    public string? DelUser { get; set; }
 
-    [Column("CREATE_DT", TypeName = "datetime")]
-    public DateTime? CreateDt { get; set; }
+    [Column("DEL_YN")]
+    public bool? DelYn { get; set; }
 
-    [Column("UPDATE_DT", TypeName = "datetime")]
-    public DateTime? UpdateDt { get; set; }
-
-    [Column("DELETE_DT", TypeName = "datetime")]
-    public DateTime? DeleteDt { get; set; }
-
-    [InverseProperty("Meterialinfo")]
-    public virtual ICollection<TotalInventory> TotalInventories { get; set; } = new List<TotalInventory>();
+    [InverseProperty("Material")]
+    public virtual ICollection<TotalInventorysTb> TotalInventorysTbs { get; set; } = new List<TotalInventorysTb>();
 }

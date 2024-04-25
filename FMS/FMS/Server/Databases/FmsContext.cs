@@ -16,237 +16,237 @@ public partial class FmsContext : DbContext
     {
     }
 
-    public virtual DbSet<Alarminfo> Alarminfos { get; set; }
+    public virtual DbSet<AlarmsTb> AlarmsTbs { get; set; }
 
-    public virtual DbSet<Alarmtalklog> Alarmtalklogs { get; set; }
+    public virtual DbSet<BuildingsTb> BuildingsTbs { get; set; }
 
-    public virtual DbSet<Buildinginfo> Buildinginfos { get; set; }
+    public virtual DbSet<EnergyUsagesTb> EnergyUsagesTbs { get; set; }
 
-    public virtual DbSet<Energyinfo> Energyinfos { get; set; }
+    public virtual DbSet<FacilitysTb> FacilitysTbs { get; set; }
 
-    public virtual DbSet<Energymonthinfo> Energymonthinfos { get; set; }
+    public virtual DbSet<FloorsTb> FloorsTbs { get; set; }
 
-    public virtual DbSet<Facilityinfo> Facilityinfos { get; set; }
+    public virtual DbSet<KakaoLogsTb> KakaoLogsTbs { get; set; }
 
-    public virtual DbSet<Floorinfo> Floorinfos { get; set; }
+    public virtual DbSet<MaterialsTb> MaterialsTbs { get; set; }
 
-    public virtual DbSet<Materialinfo> Materialinfos { get; set; }
+    public virtual DbSet<MeterReadersTb> MeterReadersTbs { get; set; }
 
-    public virtual DbSet<Placeinfo> Placeinfos { get; set; }
+    public virtual DbSet<PlacesTb> PlacesTbs { get; set; }
 
-    public virtual DbSet<RoomInventory> RoomInventories { get; set; }
+    public virtual DbSet<RoomInventorysTb> RoomInventorysTbs { get; set; }
 
-    public virtual DbSet<Roominfo> Roominfos { get; set; }
+    public virtual DbSet<RoomsTb> RoomsTbs { get; set; }
 
-    public virtual DbSet<Socketroominfo> Socketroominfos { get; set; }
+    public virtual DbSet<SocketRoomsTb> SocketRoomsTbs { get; set; }
 
-    public virtual DbSet<Subitem> Subitems { get; set; }
+    public virtual DbSet<SubItemsTb> SubItemsTbs { get; set; }
 
-    public virtual DbSet<TotalInventory> TotalInventories { get; set; }
+    public virtual DbSet<TotalInventorysTb> TotalInventorysTbs { get; set; }
 
-    public virtual DbSet<Userinfo> Userinfos { get; set; }
+    public virtual DbSet<UnitPriceTb> UnitPriceTbs { get; set; }
 
-    public virtual DbSet<Vocinfo> Vocinfos { get; set; }
+    public virtual DbSet<UsersTb> UsersTbs { get; set; }
 
-    public virtual DbSet<VocinfoComment> VocinfoComments { get; set; }
+    public virtual DbSet<VocCommentsTb> VocCommentsTbs { get; set; }
+
+    public virtual DbSet<VocTb> VocTbs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=123.2.156.122,1002;Database=FMS;User Id=stec;Password=stecdev1234!;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Alarminfo>(entity =>
+        modelBuilder.Entity<AlarmsTb>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ALARMINF__3214EC27EA30F64E");
+            entity.HasKey(e => e.Id).HasName("PK__ALARMS_T__3214EC271D8D3E5D");
 
             entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
             entity.Property(e => e.Status).HasDefaultValueSql("((0))");
 
-            entity.HasOne(d => d.Socketroominfo).WithMany(p => p.Alarminfos).HasConstraintName("FK__ALARMINFO__SOCKE__0BE6BFCF");
+            entity.HasOne(d => d.SocketRooms).WithMany(p => p.AlarmsTbs).HasConstraintName("FK__ALARMS_TB__SOCKE__23893F36");
 
-            entity.HasOne(d => d.UserinfoUser).WithMany(p => p.Alarminfos).HasConstraintName("FK__ALARMINFO__USERI__09FE775D");
+            entity.HasOne(d => d.UsersUser).WithMany(p => p.AlarmsTbs).HasConstraintName("FK__ALARMS_TB__USERS__22951AFD");
 
-            entity.HasOne(d => d.Vocinfo).WithMany(p => p.Alarminfos).HasConstraintName("FK__ALARMINFO__VOCIN__0AF29B96");
+            entity.HasOne(d => d.Voc).WithMany(p => p.AlarmsTbs).HasConstraintName("FK__ALARMS_TB__VOC_I__21A0F6C4");
         });
 
-        modelBuilder.Entity<Alarmtalklog>(entity =>
+        modelBuilder.Entity<BuildingsTb>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ALARMTAL__3214EC27B638B645");
-
-            entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
-        });
-
-        modelBuilder.Entity<Buildinginfo>(entity =>
-        {
-            entity.HasKey(e => e.Code).HasName("PK__BUILDING__AA1D4378CC0B17B2");
+            entity.HasKey(e => e.BuildingCd).HasName("PK__BUILDING__1E409687EBA112AD");
 
             entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-            entity.HasOne(d => d.PlaceinfoCodeNavigation).WithMany(p => p.Buildinginfos).HasConstraintName("FK__BUILDINGI__PLACE__50C5FA01");
+            entity.HasOne(d => d.PlacecodeCdNavigation).WithMany(p => p.BuildingsTbs).HasConstraintName("FK__BUILDINGS__PLACE__01342732");
         });
 
-        modelBuilder.Entity<Energyinfo>(entity =>
+        modelBuilder.Entity<EnergyUsagesTb>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ENERGYIN__3214EC273521FA9A");
+            entity.HasKey(e => e.Id).HasName("PK__ENERGY_U__3214EC27449D7BE3");
 
             entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
         });
 
-        modelBuilder.Entity<Energymonthinfo>(entity =>
+        modelBuilder.Entity<FacilitysTb>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ENERGYMO__3214EC2709F0CC37");
+            entity.HasKey(e => e.Id).HasName("PK__FACILITY__3214EC276D4CF6DD");
+
+            entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
+            entity.Property(e => e.FacCreateDt).HasDefaultValueSql("(getdate())");
+
+            entity.HasOne(d => d.Rooms).WithMany(p => p.FacilitysTbs).HasConstraintName("FK__FACILITYS__ROOMS__2942188C");
+        });
+
+        modelBuilder.Entity<FloorsTb>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__FLOORS_T__3214EC27ACDCD733");
 
             entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
 
-            entity.HasOne(d => d.BuildinginfoCodeNavigation).WithMany(p => p.Energymonthinfos).HasConstraintName("FK__ENERGYMON__BUILD__414EAC47");
+            entity.HasOne(d => d.BuildingCdNavigation).WithMany(p => p.FloorsTbs).HasConstraintName("FK__FLOORS_TB__BUILD__05F8DC4F");
         });
 
-        modelBuilder.Entity<Facilityinfo>(entity =>
+        modelBuilder.Entity<KakaoLogsTb>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__FACILITY__3214EC2732CB3A66");
-
-            entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
-            entity.Property(e => e.FacilityCreatedt).HasDefaultValueSql("(getdate())");
-
-            entity.HasOne(d => d.Roominfo).WithMany(p => p.Facilityinfos).HasConstraintName("FK__FACILITYI__ROOMI__5832119F");
-        });
-
-        modelBuilder.Entity<Floorinfo>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__FLOORINF__3214EC270F115E83");
-
-            entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
-
-            entity.HasOne(d => d.BuildinginfoCodeNavigation).WithMany(p => p.Floorinfos).HasConstraintName("FK__FLOORINFO__BUILD__5B438874");
-        });
-
-        modelBuilder.Entity<Materialinfo>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__MATERIAL__3214EC279EA05BCD");
+            entity.HasKey(e => e.Id).HasName("PK__KAKAO_LO__3214EC272E2E48B5");
 
             entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
         });
 
-        modelBuilder.Entity<Placeinfo>(entity =>
+        modelBuilder.Entity<MaterialsTb>(entity =>
         {
-            entity.HasKey(e => e.Code).HasName("PK__PLACEINF__AA1D4378EE7F5696");
+            entity.HasKey(e => e.Id).HasName("PK__MATERIAL__3214EC277B42B210");
+
+            entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
+        });
+
+        modelBuilder.Entity<MeterReadersTb>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__METER_RE__3214EC27FE0EE104");
+
+            entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
+
+            entity.HasOne(d => d.BuildingCdNavigation).WithMany(p => p.MeterReadersTbs).HasConstraintName("FK__METER_REA__BUILD__49AEE81E");
+        });
+
+        modelBuilder.Entity<PlacesTb>(entity =>
+        {
+            entity.HasKey(e => e.PlaceCd).HasName("PK__PLACES_T__1E23CE2BD3E526C4");
 
             entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
         });
 
-        modelBuilder.Entity<RoomInventory>(entity =>
+        modelBuilder.Entity<RoomInventorysTb>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ROOM_INV__3214EC2742553AC4");
+            entity.HasKey(e => e.Id).HasName("PK__ROOM_INV__3214EC27C9DFD983");
 
             entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
 
-            entity.HasOne(d => d.BuildinginfoCodeNavigation).WithMany(p => p.RoomInventories).HasConstraintName("FK__ROOM_INVE__BUILD__7F80E8EA");
+            entity.HasOne(d => d.BuildingCdNavigation).WithMany(p => p.RoomInventorysTbs).HasConstraintName("FK__ROOM_INVE__BUILD__4119A21D");
 
-            entity.HasOne(d => d.Roominfo).WithMany(p => p.RoomInventories).HasConstraintName("FK__ROOM_INVE__ROOMI__7E8CC4B1");
+            entity.HasOne(d => d.Rooms).WithMany(p => p.RoomInventorysTbs).HasConstraintName("FK__ROOM_INVE__ROOMS__40257DE4");
         });
 
-        modelBuilder.Entity<Roominfo>(entity =>
+        modelBuilder.Entity<RoomsTb>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ROOMINFO__3214EC274895D6F8");
+            entity.HasKey(e => e.Id).HasName("PK__ROOMS_TB__3214EC27B00B7AE8");
 
             entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
 
-            entity.HasOne(d => d.Floorinfo).WithMany(p => p.Roominfos).HasConstraintName("FK__ROOMINFO__FLOORI__65C116E7");
+            entity.HasOne(d => d.Floor).WithMany(p => p.RoomsTbs).HasConstraintName("FK__ROOMS_TB__FLOOR___0ABD916C");
         });
 
-        modelBuilder.Entity<Socketroominfo>(entity =>
+        modelBuilder.Entity<SocketRoomsTb>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SOCKETRO__3214EC273C4DA122");
+            entity.HasKey(e => e.Id).HasName("PK__SOCKET_R__3214EC27FD4FECE6");
 
             entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
         });
 
-        modelBuilder.Entity<Subitem>(entity =>
+        modelBuilder.Entity<SubItemsTb>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SUBITEM__3214EC27083DD45D");
+            entity.HasKey(e => e.Id).HasName("PK__SUB_ITEM__3214EC27D0F45070");
 
             entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
 
-            entity.HasOne(d => d.BuildinginfoCodeNavigation).WithMany(p => p.Subitems).HasConstraintName("FK__SUBITEM__BUILDIN__5CF6C6BC");
+            entity.HasOne(d => d.BuildingCdNavigation).WithMany(p => p.SubItemsTbs).HasConstraintName("FK__SUB_ITEMS__BUILD__39788055");
 
-            entity.HasOne(d => d.Facilityinfo).WithMany(p => p.Subitems).HasConstraintName("FK__SUBITEM__FACILIT__5DEAEAF5");
+            entity.HasOne(d => d.Facility).WithMany(p => p.SubItemsTbs).HasConstraintName("FK__SUB_ITEMS__FACIL__3A6CA48E");
         });
 
-        modelBuilder.Entity<TotalInventory>(entity =>
+        modelBuilder.Entity<TotalInventorysTb>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__TOTAL_IN__3214EC272E1576B5");
+            entity.HasKey(e => e.Id).HasName("PK__TOTAL_IN__3214EC27F19A4322");
 
             entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
 
-            entity.HasOne(d => d.BuildinginfoCodeNavigation).WithMany(p => p.TotalInventories).HasConstraintName("FK__TOTAL_INV__BUILD__658C0CBD");
+            entity.HasOne(d => d.BuildingCdNavigation).WithMany(p => p.TotalInventorysTbs).HasConstraintName("FK__TOTAL_INV__BUILD__34B3CB38");
 
-            entity.HasOne(d => d.Meterialinfo).WithMany(p => p.TotalInventories).HasConstraintName("FK__TOTAL_INV__METER__6497E884");
+            entity.HasOne(d => d.Material).WithMany(p => p.TotalInventorysTbs).HasConstraintName("FK__TOTAL_INV__MATER__33BFA6FF");
         });
 
-        modelBuilder.Entity<Userinfo>(entity =>
+        modelBuilder.Entity<UnitPriceTb>(entity =>
         {
-            entity.HasKey(e => e.Userid).HasName("PK__USERINFO__7B9E7F35E634073D");
+            entity.HasKey(e => e.Id).HasName("PK__UNIT_PRI__3214EC27194E859D");
+
+            entity.HasOne(d => d.EnveryUsage).WithMany(p => p.UnitPriceTbs).HasConstraintName("FK__UNIT_PRIC__ENVER__515009E6");
+
+            entity.HasOne(d => d.MeterReader).WithMany(p => p.UnitPriceTbs).HasConstraintName("FK__UNIT_PRIC__METER__505BE5AD");
+        });
+
+        modelBuilder.Entity<UsersTb>(entity =>
+        {
+            entity.HasKey(e => e.UserId).HasName("PK__USERS_TB__F3BEEBFF564D2827");
 
             entity.Property(e => e.AdminYn).HasDefaultValueSql("((0))");
             entity.Property(e => e.AlarmYn).HasDefaultValueSql("((0))");
             entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
             entity.Property(e => e.Id).ValueGeneratedOnAdd();
-            entity.Property(e => e.PermAdm).HasDefaultValueSql("((0))");
-            entity.Property(e => e.PermClaim).HasDefaultValueSql("((0))");
-            entity.Property(e => e.PermComp).HasDefaultValueSql("((0))");
-            entity.Property(e => e.PermConst).HasDefaultValueSql("((0))");
-            entity.Property(e => e.PermDevice).HasDefaultValueSql("((0))");
-            entity.Property(e => e.PermEnergy).HasDefaultValueSql("((0))");
-            entity.Property(e => e.PermImployee).HasDefaultValueSql("((0))");
-            entity.Property(e => e.PermLawck).HasDefaultValueSql("((0))");
-            entity.Property(e => e.PermLawedu).HasDefaultValueSql("((0))");
-            entity.Property(e => e.PermMaterial).HasDefaultValueSql("((0))");
-            entity.Property(e => e.PermPlace).HasDefaultValueSql("((0))");
-            entity.Property(e => e.PermSys).HasDefaultValueSql("((0))");
             entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
-            entity.HasOne(d => d.PlaceinfoCodeNavigation).WithMany(p => p.Userinfos).HasConstraintName("FK__USERINFO__PLACEI__0E04126B");
+            entity.HasOne(d => d.PlacecodeCdNavigation).WithMany(p => p.UsersTbs).HasConstraintName("FK__USERS_TB__PLACEC__7C6F7215");
         });
 
-        modelBuilder.Entity<Vocinfo>(entity =>
+        modelBuilder.Entity<VocCommentsTb>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__VOCINFO__3214EC27856EF568");
+            entity.HasKey(e => e.Id).HasName("PK__VOC_COMM__3214EC27E4864003");
+
+            entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
+            entity.Property(e => e.Status).HasDefaultValueSql("((0))");
+
+            entity.HasOne(d => d.UsersUser).WithMany(p => p.VocCommentsTbs).HasConstraintName("FK__VOC_COMME__USERS__18178C8A");
+
+            entity.HasOne(d => d.Voc).WithMany(p => p.VocCommentsTbs).HasConstraintName("FK__VOC_COMME__VOC_I__17236851");
+        });
+
+        modelBuilder.Entity<VocTb>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__VOC_TB__3214EC27FB8E45C7");
 
             entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
             entity.Property(e => e.ReplyYn).HasDefaultValueSql("((0))");
             entity.Property(e => e.Status).HasDefaultValueSql("((0))");
-        });
 
-        modelBuilder.Entity<VocinfoComment>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__VOCINFO___3214EC272C93F75C");
-
-            entity.Property(e => e.CreateDt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.DelYn).HasDefaultValueSql("((0))");
-            entity.Property(e => e.Status).HasDefaultValueSql("((0))");
-
-            entity.HasOne(d => d.UserinfoUser).WithMany(p => p.VocinfoComments).HasConstraintName("FK__VOCINFO_C__USERI__27C3E46E");
-
-            entity.HasOne(d => d.Vocinfo).WithMany(p => p.VocinfoComments).HasConstraintName("FK__VOCINFO_C__VOCIN__26CFC035");
+            entity.HasOne(d => d.BuildingCdNavigation).WithMany(p => p.VocTbs).HasConstraintName("FK__VOC_TB__BUILDING__116A8EFB");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -6,17 +6,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FMS.Shared.Model;
 
-[Table("BUILDINGINFO")]
-public partial class Buildinginfo
+[Table("BUILDINGS_TB")]
+public partial class BuildingsTb
 {
     [Column("ID")]
     public int Id { get; set; }
 
     [Key]
-    [Column("CODE")]
+    [Column("BUILDING_CD")]
     [StringLength(25)]
     [Unicode(false)]
-    public string Code { get; set; } = null!;
+    public string BuildingCd { get; set; } = null!;
 
     [Column("NAME")]
     [StringLength(255)]
@@ -27,6 +27,11 @@ public partial class Buildinginfo
     [StringLength(255)]
     [Unicode(false)]
     public string? Address { get; set; }
+
+    [Column("TEL")]
+    [StringLength(20)]
+    [Unicode(false)]
+    public string? Tel { get; set; }
 
     [Column("USAGE")]
     [StringLength(20)]
@@ -41,21 +46,21 @@ public partial class Buildinginfo
     [Column("COMPLETION_DATE", TypeName = "datetime")]
     public DateTime? CompletionDate { get; set; }
 
-    [Column("BUILDING_STRUCTURE")]
+    [Column("BUILDING_STRUCT")]
     [StringLength(30)]
     [Unicode(false)]
-    public string? BuildingStructure { get; set; }
+    public string? BuildingStruct { get; set; }
 
-    [Column("ROOT_STRUCTURE")]
+    [Column("ROOF_STRUCT")]
     [StringLength(30)]
     [Unicode(false)]
-    public string? RootStructure { get; set; }
+    public string? RoofStruct { get; set; }
 
-    [Column("GROSSFLOORAREA")]
-    public double? Grossfloorarea { get; set; }
+    [Column("GROSS_FLOOR_AREA")]
+    public double? GrossFloorArea { get; set; }
 
-    [Column("LANDAREA")]
-    public double? Landarea { get; set; }
+    [Column("LAND_AREA")]
+    public double? LandArea { get; set; }
 
     [Column("BUILDING_AREA")]
     public double? BuildingArea { get; set; }
@@ -87,8 +92,8 @@ public partial class Buildinginfo
     [Column("OUTER_PACKING_NUM")]
     public int? OuterPackingNum { get; set; }
 
-    [Column("ELECTRIC_CAPACITY")]
-    public double? ElectricCapacity { get; set; }
+    [Column("ELEC_CAPACITY")]
+    public double? ElecCapacity { get; set; }
 
     [Column("FAUCET_CAPACITY")]
     public double? FaucetCapacity { get; set; }
@@ -99,8 +104,8 @@ public partial class Buildinginfo
     [Column("WATER_CAPACITY")]
     public double? WaterCapacity { get; set; }
 
-    [Column("ELEVWATER_TANK")]
-    public double? ElevwaterTank { get; set; }
+    [Column("ELEV_WATER_TANK")]
+    public double? ElevWaterTank { get; set; }
 
     [Column("WATER_TANK")]
     public double? WaterTank { get; set; }
@@ -117,11 +122,11 @@ public partial class Buildinginfo
     [Column("LIFT_NUM")]
     public int? LiftNum { get; set; }
 
-    [Column("PEOPLELIFT_NUM")]
-    public int? PeopleliftNum { get; set; }
+    [Column("PEOPLE_LIFT_NUM")]
+    public int? PeopleLiftNum { get; set; }
 
-    [Column("CARGOLIFT_NUM")]
-    public int? CargoliftNum { get; set; }
+    [Column("CARGO_LIFT_NUM")]
+    public int? CargoLiftNum { get; set; }
 
     [Column("COOL_HEAT_CAPACITY")]
     public double? CoolHeatCapacity { get; set; }
@@ -138,17 +143,17 @@ public partial class Buildinginfo
     [Column("GROUND_AREA")]
     public double? GroundArea { get; set; }
 
-    [Column("ROOPTOP_AREA")]
-    public double? RooptopArea { get; set; }
+    [Column("ROOFTOP_AREA")]
+    public double? RooftopArea { get; set; }
 
     [Column("TOILET_NUM")]
     public int? ToiletNum { get; set; }
 
-    [Column("MENTOILET_NUM")]
-    public int? MentoiletNum { get; set; }
+    [Column("MEN_TOILET_NUM")]
+    public int? MenToiletNum { get; set; }
 
-    [Column("WOMENTOILET_NUM")]
-    public int? WomentoiletNum { get; set; }
+    [Column("WOMEN_TOILET_NUM")]
+    public int? WomenToiletNum { get; set; }
 
     [Column("FIRE_RATING")]
     [StringLength(10)]
@@ -158,54 +163,57 @@ public partial class Buildinginfo
     [Column("SEPTIC_TANK_CAPACITY")]
     public double? SepticTankCapacity { get; set; }
 
-    [Column("DEL_YN")]
-    public bool? DelYn { get; set; }
+    [Column("CREATE_DT", TypeName = "datetime")]
+    public DateTime? CreateDt { get; set; }
 
     [Column("CREATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
     public string? CreateUser { get; set; }
 
+    [Column("UPDATE_DT", TypeName = "datetime")]
+    public DateTime? UpdateDt { get; set; }
+
     [Column("UPDATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
     public string? UpdateUser { get; set; }
 
-    [Column("DELETE_USER")]
+    [Column("DEL_DT", TypeName = "datetime")]
+    public DateTime? DelDt { get; set; }
+
+    [Column("DEL_USER")]
     [StringLength(15)]
     [Unicode(false)]
-    public string? DeleteUser { get; set; }
+    public string? DelUser { get; set; }
 
-    [Column("CREATE_DT", TypeName = "datetime")]
-    public DateTime? CreateDt { get; set; }
+    [Column("DEL_YN")]
+    public bool? DelYn { get; set; }
 
-    [Column("UPDATE_DT", TypeName = "datetime")]
-    public DateTime? UpdateDt { get; set; }
-
-    [Column("DELETE_DT", TypeName = "datetime")]
-    public DateTime? DeleteDt { get; set; }
-
-    [Column("PLACEINFO_CODE")]
+    [Column("PLACECODE_CD")]
     [StringLength(25)]
     [Unicode(false)]
-    public string? PlaceinfoCode { get; set; }
+    public string? PlacecodeCd { get; set; }
 
-    [InverseProperty("BuildinginfoCodeNavigation")]
-    public virtual ICollection<Energymonthinfo> Energymonthinfos { get; set; } = new List<Energymonthinfo>();
+    [InverseProperty("BuildingCdNavigation")]
+    public virtual ICollection<FloorsTb> FloorsTbs { get; set; } = new List<FloorsTb>();
 
-    [InverseProperty("BuildinginfoCodeNavigation")]
-    public virtual ICollection<Floorinfo> Floorinfos { get; set; } = new List<Floorinfo>();
+    [InverseProperty("BuildingCdNavigation")]
+    public virtual ICollection<MeterReadersTb> MeterReadersTbs { get; set; } = new List<MeterReadersTb>();
 
-    [ForeignKey("PlaceinfoCode")]
-    [InverseProperty("Buildinginfos")]
-    public virtual Placeinfo? PlaceinfoCodeNavigation { get; set; }
+    [ForeignKey("PlacecodeCd")]
+    [InverseProperty("BuildingsTbs")]
+    public virtual PlacesTb? PlacecodeCdNavigation { get; set; }
 
-    [InverseProperty("BuildinginfoCodeNavigation")]
-    public virtual ICollection<RoomInventory> RoomInventories { get; set; } = new List<RoomInventory>();
+    [InverseProperty("BuildingCdNavigation")]
+    public virtual ICollection<RoomInventorysTb> RoomInventorysTbs { get; set; } = new List<RoomInventorysTb>();
 
-    [InverseProperty("BuildinginfoCodeNavigation")]
-    public virtual ICollection<Subitem> Subitems { get; set; } = new List<Subitem>();
+    [InverseProperty("BuildingCdNavigation")]
+    public virtual ICollection<SubItemsTb> SubItemsTbs { get; set; } = new List<SubItemsTb>();
 
-    [InverseProperty("BuildinginfoCodeNavigation")]
-    public virtual ICollection<TotalInventory> TotalInventories { get; set; } = new List<TotalInventory>();
+    [InverseProperty("BuildingCdNavigation")]
+    public virtual ICollection<TotalInventorysTb> TotalInventorysTbs { get; set; } = new List<TotalInventorysTb>();
+
+    [InverseProperty("BuildingCdNavigation")]
+    public virtual ICollection<VocTb> VocTbs { get; set; } = new List<VocTb>();
 }
