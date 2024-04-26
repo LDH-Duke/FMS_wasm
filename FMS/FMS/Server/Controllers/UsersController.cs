@@ -1,9 +1,11 @@
-﻿using FMS.Server.Repository.Interfaces;
+﻿using FMS.Server.Repository;
+using FMS.Server.Repository.Interfaces;
 using FMS.Server.Services;
 using FMS.Shared.Model;
 using FMS.Shared.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
@@ -24,11 +26,11 @@ namespace FMS.Server.Controllers
         }
 
         [HttpGet]
-        public async ValueTask<IEnumerable<Userinfo>> Get()
+        public async void Get()
         {
             var temp = await UserInfoRepository.GetAllAsync();
             //var temp2 = dataService.Test();
-            return temp;
+            // return temp;
         }
 
 
@@ -40,9 +42,10 @@ namespace FMS.Server.Controllers
             try
             {
                 Console.WriteLine("gg");
-                using var reader = new StreamReader(Request.Body);
+                var reader = new StreamReader(Request.Body);
                 string body = await reader.ReadToEndAsync();
-                Console.WriteLine(body);
+                UsersTb user = JsonConvert.DeserializeObject<UsersTb>(body);
+                await UserInfoRepository.AddAsync(user);
 
 
                 //UserInfoRepository.GetByUserIdAsync()

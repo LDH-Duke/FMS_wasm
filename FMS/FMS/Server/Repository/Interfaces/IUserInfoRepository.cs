@@ -9,13 +9,13 @@ namespace FMS.Server.Repository.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        ValueTask<Userinfo> AddAsync(Userinfo model);
+        ValueTask<UsersTb> AddAsync(UsersTb model);
 
         /// <summary>
         /// 전체조회 (비동기)
         /// </summary>
         /// <returns></returns>
-        ValueTask<List<Userinfo>> GetAllAsync();
+        ValueTask<List<UsersTb>> GetAllAsync();
 
 
         /// <summary>
@@ -23,13 +23,13 @@ namespace FMS.Server.Repository.Interfaces
         /// </summary>
         /// <param name="userid"></param>
         /// <returns></returns>
-        ValueTask<Userinfo> GetByUserIdAsync(string userid);
+        ValueTask<UsersTb> GetByUserIdAsync(string userid);
 
         /// <summary>
         /// 수정 (비동기)
         /// </summary>
         /// <returns></returns>
-        ValueTask<bool> EditAsync(Userinfo model);
+        ValueTask<bool> EditAsync(UsersTb model);
 
         /// <summary>
         /// 삭제 (비동기)

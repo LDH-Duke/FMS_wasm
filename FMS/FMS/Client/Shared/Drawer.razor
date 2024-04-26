@@ -9,14 +9,17 @@
                 <NavLink 
                     class="drawer-link"
                     href = "@(category.Url != null ? category.Url : null)"
+                    @onclick="() => ToggleDropdown(category)"
                 >
-                    <span>
-                        @category.Name
-                    </span>
+                    <span class="title">@category.Name</span>
+                    @if(category.SubCategory != null){
+                        <span class="arrow">∨</span>
+                    }
                 </NavLink>
+                
                 @if(category.SubCategory != null)
                 {
-                    <ul class="drawer-sub-wrap">
+                    <ul class="drawer-sub-wrap @(category.IsDropDown ? "active" : null)">
                         @foreach(var subcategory in category.SubCategory)
                         {
                             <li class="drawer-sub-item">
@@ -27,7 +30,6 @@
                                 </NavLink>
                             </li>
                         }
-                        
                     </ul>
                 }
             </li>
@@ -105,5 +107,15 @@
 
         }
     };
+
+    /*
+     * 드롭다운 기능
+     */
+
+    void ToggleDropdown(Category category)
+    {
+        Console.WriteLine("동작");
+        category.IsDropDown = !category.IsDropDown;
+    }
 
 }

@@ -1,0 +1,19 @@
+@* @page "/test"
+@using System.Text.RegularExpressions
+
+<input type="text" @oninput="ConvertToSuperscript" />
+
+<p>@((MarkupString)convertedText)</p>
+
+@code {
+    private string convertedText = "";
+    
+
+    private void ConvertToSuperscript(ChangeEventArgs e)
+    {
+        var userInput = e.Value.ToString();
+        // 숫자 부분을 <sup>태그로 감싸기
+        convertedText = Regex.Replace(userInput, @"\d+", match => $"<sup>{match.Value}</sup>");
+        
+    }
+} *@

@@ -23,10 +23,10 @@
                     Label="Id" 
                     InputType="text" 
                     Placeholder="Id" 
-                    @bind-Value="@user.Userid" 
+                    @bind-Value="@user.UserId" 
                     OnClick="OnDuplicateCheck"
                     />
-                    <ValidationMessage For="@(()=>@user.Userid)"/>
+                    <ValidationMessage For="@(()=>@user.UserId)"/>
 
                     <InputField 
                     Label="Pw" 
@@ -69,10 +69,11 @@
     private bool is_modal = false;
     private string err = string.Empty;
 
-    Userinfo user = new Userinfo();
+    UsersTb user = new UsersTb();
 
     /*단위 테스트*/
     protected override void OnInitialized(){
+
         Console.WriteLine("12");
         Console.WriteLine("㎨"=="㎨");
         char myChar ='㎨';
@@ -100,7 +101,7 @@
         try
         {
             Console.WriteLine("[회원가입][Submit] 동작");
-            Console.WriteLine("ID : " + user.Userid);
+            Console.WriteLine("ID : " + user.UserId);
             Console.WriteLine("PW : " + user.Password);
             // Console.WriteLine("Name : " + user.Name);
             // Console.WriteLine("Email : " + user.Email);
@@ -164,7 +165,7 @@
     {
         try
         {
-            var CheckId = new {UserId = user.Userid};
+            var CheckId = new {UserId = user.UserId};
             Console.WriteLine("동작");
             string json = JsonSerializer.Serialize(CheckId);
             var res = await httpClient.PostAsJsonAsync("http://localhost:5077/api/Users/AddUser/aa",json);

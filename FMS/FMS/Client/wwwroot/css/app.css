@@ -6,12 +6,12 @@
     box-sizing:border-box;
     color:black;
 
-    -ms-overflow-style: none; /* ÀÍ½ºÇÃ·Î·¯, ¾ÜÁö */
-    scrollbar-width: none; /* ÆÄÀÌ¾îÆø½º */
+    -ms-overflow-style: none; /* ï¿½Í½ï¿½ï¿½Ã·Î·ï¿½, ï¿½ï¿½ï¿½ï¿½ */
+    scrollbar-width: none; /* ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 
 *::-webkit-scrollbar {
-    display: none; /* Å©·Ò, »çÆÄ¸®, ¿ÀÆä¶ó */
+    display: none; /* Å©ï¿½ï¿½, ï¿½ï¿½ï¿½Ä¸ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ */
 }
 
 html,
