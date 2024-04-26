@@ -1,411 +1,440 @@
-﻿/* 사업장 테이블 */
-CREATE TABLE PLACEINFO
+﻿
+
+/* 사업장 테이블 */
+CREATE TABLE PLACES_TB
 (
-   [ID] INT IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
-   [CODE] VARCHAR(25) PRIMARY KEY NOT NULL, /* 사업장 코드 */
-   [CONTRACTNUM] VARCHAR(45) NOT NULL, /* 계약번호 */
-   [NAME] VARCHAR(255) NOT NULL, /* 사업장 명 */
-   [NOTE] VARCHAR(20), /* 비고 */
-   
-   [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-   [CREATE_USER] varchar(15),
-   [UPDATE_USER] varchar(15),
-   [DELETE_USER] varchar(15),
-   [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-   [UPDATE_DT] DATETIME,
-   [DELETE_DT] DATETIME
+	[ID] INT IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
+	[PLACE_CD] VARCHAR(25) PRIMARY KEY NOT NULL, /* 사업장 코드 */
+	[NAME] VARCHAR(255) NOT NULL, /* 사업장 명 */
+	[CONTRACT_NUM] VARCHAR(45) NOT NULL, /* 계약번호 */
+	[NOTE] VARCHAR(20), /* 비고 */
+
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
+
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+)
+
+/* 사용자 테이블 */
+CREATE TABLE USERS_TB
+(
+	[ID] INT IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
+	[USER_ID] VARCHAR(15) PRIMARY KEY NOT NULL, /* 사용자 ID */
+	[PASSWORD] VARCHAR(30) NOT NULL, /* 비밀번호 */
+	[NAME] VARCHAR(15) NOT NULL, /* 사용자이름 */
+	[EMAIL] VARCHAR(30), /* 이메일 */
+	[PHONE] VARCHAR(20), /* 전화번호 */
+	
+	[PERM_BUILDING] INT DEFAULT(0) NOT NULL, /* 건물정보 관리 권한*/
+	[PERM_EQUIPMENT] INT DEFAULT(0) NOT NULL, /* 장비관리 권한*/
+	[PERM_MATERIAL] INT DEFAULT(0) NOT NULL, /* 자재관리 권한*/
+	[PERM_ENERGY] INT DEFAULT(0) NOT NULL, /* 에너지관리 권한*/
+	[PERM_OFFICE] INT DEFAULT(0) NOT NULL, /* 행정관리 권한*/
+	[PERM_COMP] INT DEFAULT(0) NOT NULL, /* 업체관리 권한*/
+	[PERM_CONST] INT DEFAULT(0) NOT NULL, /* 공사관리 권한*/
+	[PERM_CLAIM] INT DEFAULT(0) NOT NULL, /* 민원관리 권한*/
+	[PERM_SYS] INT DEFAULT(0) NOT NULL, /* 시스템연동 관리 권한*/
+	[PERM_EMPLOYEE] INT DEFAULT(0) NOT NULL, /* 입퇴직 관리 권한*/
+	[PERM_LAW_CK] INT DEFAULT(0) NOT NULL, /* 법정점검 권한*/
+	[PERM_LAW_EDU] INT DEFAULT(0) NOT NULL, /* 법정교육 권한*/
+	
+	[ADMIN_YN] BIT DEFAULT(0), /* 관리자 여부 */
+	[ALARM_YN] BIT DEFAULT(0), /* 알람 수신 여부 */
+	[STATUS] BIT DEFAULT(1), /* 입-재직 여부 0 : 퇴직, 1 : 재직 */
+	
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
+
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+	
+	[PLACECODE_CD] VARCHAR(25) FOREIGN KEY REFERENCES PLACES_TB([PLACE_CD])
 )
 
 /* 건물 테이블 */
-CREATE TABLE BUILDINGINFO
+CREATE TABLE BUILDINGS_TB
 (
-   [ID] INT IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
-   [CODE] VARCHAR(25) PRIMARY KEY NOT NULL, /* 건물 코드 */
-   [NAME] VARCHAR(255) NOT NULL, /* 건물 명 */
-   [ADDRESS] VARCHAR(255), /* 건물 주소 */
-   [USAGE] VARCHAR(20), /* 건물용도 */
-   [CONST_COMP] VARCHAR(20), /* 시공업체 */
-   [COMPLETION_DATE] DATETIME, /* 준공년월 */
-   [BUILDING_STRUCTURE] VARCHAR(30), /* 건물구조 */
-   [ROOT_STRUCTURE] VARCHAR(30), /* 지붕구조 */
-   [GROSSFLOORAREA] FLOAT, /* 연 면적 */
-   [LANDAREA] FLOAT, /* 대지면적 */
-   [BUILDING_AREA] FLOAT, /* 건축면적 */
-   [FLOOR_NUM] INT, /* 건물층수 */
-   [GROUND_FLOOR_NUM] INT, /* 지상층 */
-   [BASEMENT_FLOOR_NUM] INT,/* 지하층 */
-   [BUILDING_HEIGHT] FLOAT, /* 건물높이 */
-   [GROUND_HEIGHT] FLOAT, /* 지상 건물높이 */
-   [BASEMENT_HEIGHT] FLOAT, /* 지하 깊이 */
-   [PACKING_NUM] INT, /* 주차대수 */
-   [INNER_PACKING_NUM] INT, /* 옥내 대수 */
-   [OUTER_PACKING_NUM] INT, /* 옥외 대수 */
-   [ELECTRIC_CAPACITY] FLOAT, /* 전기용량 */
-   [FAUCET_CAPACITY] FLOAT, /* 수전용량 */
-   [GENERATION_CAPACITY] FLOAT,/* 발전용량 */
-   [WATER_CAPACITY] FLOAT, /* 급수용량 */
-   [ELEVWATER_TANK] FLOAT, /* 고가수조 */
-   [WATER_TANK] FLOAT, /* 저수조 */
-   [GAS_CAPACITY] FLOAT, /* 가스용량 */
-   [BOILER] FLOAT, /* 보일러 */
-   [WATER_DISPENSER] FLOAT, /* 냉온수기 */
-   [LIFT_NUM] INT, /* 승강기대수 */
-   [PEOPLELIFT_NUM] INT, /* 인승용 */
-   [CARGOLIFT_NUM] INT, /* 화물용 */
-   [COOL_HEAT_CAPACITY] FLOAT, /* 냉난방용량 */
-   [HEAT_CAPACITY] FLOAT, /* 난방용량 */
-   [COOL_CAPACITY] FLOAT, /* 냉방용량 */
-   [LANDSCAPE_AREA] FLOAT, /* 조경면적 */
-   [GROUND_AREA] FLOAT, /* 지상 면적 */
-   [ROOPTOP_AREA] FLOAT, /* 옥상 면적 */
-   [TOILET_NUM] INT, /* 화장실 개 */
-   [MENTOILET_NUM] INT, /* 남자화장실 개 */
-   [WOMENTOILET_NUM] INT, /* 여자화장실 개 */
-   [FIRE_RATING] VARCHAR(10), /* 소방등급 */
-   [SEPTIC_TANK_CAPACITY] FLOAT, /* 정화조용량 */
+	[ID] INT IDENTITY(1,1) NOT NULL, /* 자동증가값 */
+	[BUILDING_CD] VARCHAR(25) PRIMARY KEY NOT NULL, /* 건물코드 */
+	[NAME] VARCHAR(255) NOT NULL, /* 건물명 */
+	[ADDRESS] VARCHAR(255), /* 건물 주소 */
+	[TEL] VARCHAR(20), /* 전화번호 */
+	[USAGE] VARCHAR(20), /* 건물용도 */
+	[CONST_COMP] VARCHAR(20), /* 시공업체 */
+	[COMPLETION_DATE] DATETIME, /* 준공년월 */
+	[BUILDING_STRUCT] VARCHAR(30), /* 건물구조 */
+	[ROOF_STRUCT] VARCHAR(30), /* 지붕구조 */
+	
+	[GROSS_FLOOR_AREA] FLOAT, /* 연먼적 */
+	[LAND_AREA] FLOAT, /* 대지면적 */
+	[BUILDING_AREA] FLOAT, /* 건축면적 */
+	
+	[FLOOR_NUM] INT, /* 건물층수 */
+	[GROUND_FLOOR_NUM] INT, /* 지상 층 */
+	[BASEMENT_FLOOR_NUM] INT, /* 지하 층 */
+	
+	[BUILDING_HEIGHT] FLOAT, /* 건물높이 */
+	[GROUND_HEIGHT] FLOAT, /* 지상 건물 높이 */
+	[BASEMENT_HEIGHT] FLOAT, /* 지하 깊이 */
+	
+	[PACKING_NUM] INT, /* 주차 대수 */
+	[INNER_PACKING_NUM] INT, /* 옥내 대수 */
+	[OUTER_PACKING_NUM] INT, /* 옥외 대수 */
+	
+	[ELEC_CAPACITY] FLOAT, /* 전기용량 */
+	[FAUCET_CAPACITY] FLOAT, /* 수전용량 */
+	[GENERATION_CAPACITY] FLOAT, /* 발전용량 */
+	
+	[WATER_CAPACITY] FLOAT, /* 급수용량 */
+	[ELEV_WATER_TANK] FLOAT, /* 고가 수조 */
+	[WATER_TANK] FLOAT, /* 저수조 */
+	
+	[GAS_CAPACITY] FLOAT, /* 가스용량 */
+	[BOILER] FLOAT, /* 보일러 */
+	[WATER_DISPENSER] FLOAT, /* 냉온수기 */
+	
+	[LIFT_NUM] INT, /* 승강대수 */
+	[PEOPLE_LIFT_NUM] INT, /* 인승용 */
+	[CARGO_LIFT_NUM] INT, /* 화물용 */
+	
+	[COOL_HEAT_CAPACITY] FLOAT, /* 냉 난방용량 */
+	[HEAT_CAPACITY] FLOAT, /* 난방용량 */
+	[COOL_CAPACITY] FLOAT, /* 냉방용량 */
+	
+	[LANDSCAPE_AREA] FLOAT, /* 조경면적 */
+	[GROUND_AREA] FLOAT, /* 지상 면적 */
+	[ROOFTOP_AREA] FLOAT, /* 옥상 면적 */
 
-   [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-   [CREATE_USER] varchar(15),
-   [UPDATE_USER] varchar(15),
-   [DELETE_USER] varchar(15),
-   [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-   [UPDATE_DT] DATETIME,
-   [DELETE_DT] DATETIME,
+	[TOILET_NUM] INT, /* 화장실 개 */
+	[MEN_TOILET_NUM] INT, /* 남자화장실 */
+	[WOMEN_TOILET_NUM] INT, /* 여자화장실 */
 
-   [PLACEINFO_CODE] VARCHAR(25) FOREIGN KEY REFERENCES PLACEINFO (CODE),
+	[FIRE_RATING] VARCHAR(10), /* 소방 등급 */
+	
+	[SEPTIC_TANK_CAPACITY] FLOAT, /* 정화조 용량 */
+
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
+
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+
+	[PLACECODE_CD] VARCHAR(25) FOREIGN KEY REFERENCES PLACES_TB([PLACE_CD])
 )
 
-/* 서브 테이블 */
-CREATE TABLE SUBITEM
+/* 층 정보 */
+CREATE TABLE FLOORS_TB
 (
-    [ID] INT PRIMARY KEY IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
-    [COLUMNNAME] VARCHAR(25) NOT NULL, /* 컬럼 명 */
-    [UNIT] VARCHAR(10) NOT NULL, /* 단위 */
-    
-    [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-   [CREATE_USER] varchar(15),
-   [UPDATE_USER] varchar(15),
-   [DELETE_USER] varchar(15),
-   [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-   [UPDATE_DT] DATETIME,
-   [DELETE_DT] DATETIME,
+	[ID] INT PRIMARY KEY IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
+	[NAME] VARCHAR(10) NOT NULL, /* 층 명칭 */
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
 
-    [BUILDINGINFO_CODE] VARCHAR(25) FOREIGN KEY REFERENCES BUILDINGINFO (CODE), /* 건물 FK */
-    [FACILITYINFO_ID] INT FOREIGN KEY REFERENCES FACILITYINFO (ID) /* 설비 FK */
-)
-
-/* 층 테이블 */
-CREATE TABLE FLOORINFO
-(
-   [ID] INT PRIMARY KEY IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
-   [NAME] VARCHAR(10) NOT NULL, /* 층 명칭 */
-    
-   [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-   [CREATE_USER] varchar(15),
-   [UPDATE_USER] varchar(15),
-   [DELETE_USER] varchar(15),
-   [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-   [UPDATE_DT] DATETIME,
-   [DELETE_DT] DATETIME,
-
-   [BUILDINGINFO_CODE] VARCHAR(25) FOREIGN KEY REFERENCES BUILDINGINFO (CODE)
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+	
+	[BUILDING_CD] VARCHAR(25) FOREIGN KEY REFERENCES BUILDINGS_TB([BUILDING_CD])
 )
 
 /* 공간 테이블 */
-CREATE TABLE ROOMINFO
+CREATE TABLE ROOMS_TB
 (
-   [ID] INT PRIMARY KEY IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
-   [NAME] VARCHAR(35) NOT NULL, /* 공간 명칭 */
-   
-   [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-   [CREATE_USER] varchar(15),
-   [UPDATE_USER] varchar(15),
-   [DELETE_USER] varchar(15),
-   [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-   [UPDATE_DT] DATETIME,
-   [DELETE_DT] DATETIME,
+	[ID] INT PRIMARY KEY IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
+	[NAME] VARCHAR(35) NOT NULL, /* 공간 명칭 */
 
-   [FLOORINFO_ID] INT FOREIGN KEY REFERENCES FLOORINFO (ID)
-);
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
 
-/* 자재관리 테이블 */
-CREATE TABLE MATERIALINFO
-(
-   [ID] INT PRIMARY KEY IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
-   [CATEGORY] VARCHAR(10) NOT NULL, /* 자재구분 */
-   [TYPE] VARCHAR(30) NOT NULL, /* 타입 */
-   [NAME] VARCHAR(100) NOT NULL, /* 자재명 */
-   [UNIT] VARCHAR(10), /* 단위 */
-   [STANDARD] VARCHAR(10), /* 규격 */
-   [MANUFACTURING_COMP] VARCHAR(25), /* 제조사 */
-    
-    [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-   [CREATE_USER] varchar(15),
-   [UPDATE_USER] varchar(15),
-   [DELETE_USER] varchar(15),
-   [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-   [UPDATE_DT] DATETIME,
-   [DELETE_DT] DATETIME
-)
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
 
-/* 건물 전체 자재 */
-CREATE TABLE TOTAL_INVENTORY
-(
-   [ID] INT PRIMARY KEY IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
-   [INCOMING_NUM] INT NOT NULL DEFAULT(0), /* 입고수량 */   
-   [PRICE] INT NOT NULL DEFAULT(0), /* 단가 */
-    
-   [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-   [CREATE_USER] varchar(15),
-   [UPDATE_USER] varchar(15),
-   [DELETE_USER] varchar(15),
-   [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-   [UPDATE_DT] DATETIME,
-   [DELETE_DT] DATETIME,
-
-   [METERIALINFO_ID] INT FOREIGN KEY REFERENCES MATERIALINFO (ID), /* 자재관리 테이블의 ID값 외래키 */
-   [BUILDINGINFO_CODE] VARCHAR(25) FOREIGN KEY REFERENCES BUILDINGINFO (CODE) /* 건물코드 */
-)
-
-
-/* 공간 재고 */
-CREATE TABLE ROOM_INVENTORY
-(
-   [ID] INT PRIMARY KEY IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
-   [ROM_MATERIAL_NUM] int not null, /* 공간 수량 */
-   
-   [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-   [CREATE_USER] varchar(15),
-   [UPDATE_USER] varchar(15),
-   [DELETE_USER] varchar(15),
-   [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-   [UPDATE_DT] DATETIME,
-   [DELETE_DT] DATETIME,
-   
-   [ROOMINFO_ID] INT FOREIGN KEY REFERENCES ROOMINFO (ID), /* 공간 인덱스 */
-   [BUILDINGINFO_CODE] VARCHAR(25) FOREIGN KEY REFERENCES BUILDINGINFO (CODE) /* 건물코드 */
-)
-
-
-/* 사용자 테이블 */
-CREATE TABLE USERINFO
-(
-   [ID] INT IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
-   [USERID] VARCHAR(15) PRIMARY KEY NOT NULL, /* 사용자 ID */
-   [PASSWORD] VARCHAR(30) NOT NULL, /* 비밀번호 */
-   [ADMIN_YN] BIT DEFAULT(0), /* 관리자 여부 */
-   [ALARM_YN] BIT DEFAULT(0), /* 알람 받을건지 여부 */
-
-   [PERM_PLACE] INT DEFAULT(0), /* 건물정보 */  /* 0: 메뉴없음 1: 보기권한 2: 수정권한 */
-   [PERM_DEVICE] INT DEFAULT(0), /* 장비관리 */ /* 0: 메뉴없음 1: 보기권한 2: 수정권한 */
-   [PERM_MATERIAL] INT DEFAULT(0), /* 자재관리 */ /* 0: 메뉴없음 1: 보기권한 2: 수정권한 */
-   [PERM_ENERGY] INT DEFAULT(0), /* 에너지 관리 */ /* 0: 메뉴없음 1: 보기권한 2: 수정권한 */
-   [PERM_ADM] INT DEFAULT(0), /* 행정관리 */ /* 0: 메뉴없음 1: 보기권한 2: 수정권한 */
-   [PERM_COMP] INT DEFAULT(0), /* 업체관리 */ /* 0: 메뉴없음 1: 보기권한 2: 수정권한 */
-   [PERM_CONST] INT DEFAULT(0), /* 공사관리 */ /* 0: 메뉴없음 1: 보기권한 2: 수정권한 */
-   [PERM_CLAIM] INT DEFAULT(0), /* 민원관리 */ /* 0: 메뉴없음 1: 보기권한 2: 수정권한 */
-   [PERM_SYS] INT DEFAULT(0), /* 시스템연동 */ /* 0: 메뉴없음 1: 보기권한 2: 수정권한 */
-   [PERM_IMPLOYEE] INT DEFAULT(0), /* 입퇴직관리 */ /* 0: 메뉴없음 1: 보기권한 2: 수정권한 */
-   [PERM_LAWCK] INT DEFAULT(0), /* 법정점검 */ /* 0: 메뉴없음 1: 보기권한 2: 수정권한 */
-   [PERM_LAWEDU] INT DEFAULT(0), /* 법정교육 */ /* 0: 메뉴없음 1: 보기권한 2: 수정권한 */
-   
-   [STATUS] BIT DEFAULT(1), /* 0: 퇴직, 1: 재직*/
-    
-   [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-   [CREATE_USER] varchar(15),
-   [UPDATE_USER] varchar(15),
-   [DELETE_USER] varchar(15),
-   [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-   [UPDATE_DT] DATETIME,
-   [DELETE_DT] DATETIME,
-
-   [PLACEINFO_CODE] VARCHAR(25) FOREIGN KEY REFERENCES PLACEINFO ([CODE])
-)
-
-
-/* 설비정보 테이블 */
-CREATE TABLE FACILITYINFO
-(
-   [ID] INT PRIMARY KEY IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
-   [NAME] VARCHAR(255) NOT NULL, /* 시설 명칭 */
-   [CATEGORY] VARCHAR(10) NOT NULL, /* 설비 구분 */
-   [TYPE] VARCHAR(30), /* 형식 */
-   [STANDARD_CAPACITY] FLOAT, /* 규격용량 */
-   [STANDARD_UNIT] VARCHAR(10), /* 규격용량-단위 */
-   [FACILITY_CREATEDT] DATETIME DEFAULT(GETDATE()), /* 설치 년월 */
-   [LIFESPAN] VARCHAR(10), /* 내용년수 */
-   [FACILITY_UPDATEDT] DATETIME, /* 교체 년월 */
-    
-   [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-   [CREATE_USER] varchar(15),
-   [UPDATE_USER] varchar(15),
-   [DELETE_USER] varchar(15),
-   [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-   [UPDATE_DT] DATETIME,
-   [DELETE_DT] DATETIME,
-
-   [ROOMINFO_ID] INT FOREIGN KEY REFERENCES ROOMINFO (ID)  /* 설치위치 */ 
-);
-
-
-/* SIGNALR ROMM 정보 */
-CREATE TABLE SOCKETROOMINFO
-(
-    [ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* ROOM 자동증가값 */
-    [CODE] VARCHAR(30) NOT NULL, /* 룸이름 - SIGNALR CONTEXTID값 (랜덤생성) */
-    
-	[DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-    [CREATE_USER] varchar(15),
-    [UPDATE_USER] varchar(15),
-    [DELETE_USER] varchar(15),
-    [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-    [UPDATE_DT] DATETIME,
-    [DELETE_DT] DATETIME
-)
-
-CREATE TABLE ALARMINFO
-(
-   [ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 형식상 PK */
-   [STATUS] INT DEFAULT(0), /* 0 : 안읽음, 1 : 읽음 */
-   
-   [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-   [CREATE_USER] varchar(15),
-   [UPDATE_USER] varchar(15),
-   [DELETE_USER] varchar(15),
-   [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-   [UPDATE_DT] DATETIME,
-   [DELETE_DT] DATETIME,
-   
-   [USERINFO_USERID] VARCHAR(15) FOREIGN KEY REFERENCES USERINFO ([USERID]), /* 알람 관리자 */
-   [VOCINFO_ID] INT FOREIGN KEY REFERENCES VOCINFO ([ID]), /* 민원 발생 인덱스 */
-   [SOCKETROOMINFO_ID] INT FOREIGN KEY REFERENCES SOCKETROOMINFO ([ID]) /* SIGNALR ROMM정보 인덱스 */
-)
-
-/* 카카오톡 로그 */
-CREATE TABLE ALARMTALKLOG
-(
-    [ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-    [RESULT] VARCHAR(100) NOT NULL, /* 결과값 */
-    [RECEIVE_PHONENUMBER] VARCHAR(20), /* 수신자 */
-    [SENDER_PHONENUMBER] VARCHAR(20), /* 발신자 */
-    
-    [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-    [CREATE_USER] varchar(15),
-    [UPDATE_USER] varchar(15),
-    [DELETE_USER] varchar(15),
-    [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-    [UPDATE_DT] DATETIME,
-    [DELETE_DT] DATETIME
+	[FLOOR_ID] INT FOREIGN KEY REFERENCES FLOORS_TB([ID])
 )
 
 /* 민원 정보 */
-CREATE TABLE VOCINFO
+CREATE TABLE VOC_TB
 (
-   [ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* VOC 발생건수 INDEX */
-   [TITLE] VARCHAR(30) NOT NULL, /* 민원 제목 */
-   [CONTENT] VARCHAR(MAX) NOT NULL, /* 민원 내용 */
-   
-   [STATUS] INT DEFAULT(0), /* 상태 0: 미처리 1: 처리중 2: 처리완료  */
-   [REPLY_YN] BIT DEFAULT(0), /* 처리상태 받을건지 */
-   [PHONENUMBER] VARCHAR(20), /* 요청자 휴대폰번호 */
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[TITLE] VARCHAR(30) NOT NULL, /* 민원 제목 */
+	[CONTENT] VARCHAR(MAX) NOT NULL, /* 민원 내용 */
 
-   [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-   [CREATE_USER] varchar(15),
-   [UPDATE_USER] varchar(15),
-   [DELETE_USER] varchar(15),
-   [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-   [UPDATE_DT] DATETIME,
-   [DELETE_DT] DATETIME
+	[STATUS] INT DEFAULT(0), /* 상태 0 : 미처리, 1 : 처리중, 2 : 처리완료 */
+	[PHONE] VARCHAR(20), /* 요청자 휴대폰번호 */
+	[REPLY_YN] BIT DEFAULT(0), /* n : 처리상태 안받음, 1 : 처리상태 받음 */
+
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
+
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+
+	/* 외래키로 건물 코드 */
+	[BUILDING_CD] VARCHAR(25) FOREIGN KEY REFERENCES BUILDINGS_TB ([BUILDING_CD])
+)
+
+/* 알람_처리내용 테이블 */
+CREATE TABLE VOC_COMMENTS_TB
+(
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[CONTENT] VARCHAR(255), /* 처리 내용 */
+	[STATUS] INT DEFAULT(0), /* 상태 0 : 미처리, 1 : 처리중, 2 : 처리완료 */
+	
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
+
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+
+	[VOC_ID] INT FOREIGN KEY REFERENCES VOC_TB ([ID]),
+	[USERS_USERID] VARCHAR(15) FOREIGN KEY REFERENCES USERS_TB ([USER_ID])
+)
+
+CREATE TABLE SOCKET_ROOMS_TB
+(
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[ROOM_CD] VARCHAR(30) NOT NULL, /* 룸이름 - SIGNALR CONTEXT ID값 (랜덤생성됨) */
+
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
+
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+
 )
 
 
-CREATE TABLE VOCINFO_COMMENT
+/* 알람 테이블 */
+CREATE TABLE ALARMS_TB
 (
-   [ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 형식상 PK */
-   [CONTENT] VARCHAR(255), /* 처리내용 */
-   [STATUS] INT DEFAULT(0), /* 0 : 미처리, 1 : 처리중, 2: 처리완료 */
-   
-   [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-   [CREATE_USER] varchar(15),
-   [UPDATE_USER] varchar(15),
-   [DELETE_USER] varchar(15),
-   [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-   [UPDATE_DT] DATETIME,
-   [DELETE_DT] DATETIME,
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[CONTENT] VARCHAR(100), /* 알람의 내용 */
+	[STATUS] INT DEFAULT(0), /* 0 : 읽음, 1 : 안읽음 */
 
-   [VOCINFO_ID] INT FOREIGN KEY REFERENCES VOCINFO (ID), /* 민원 발생 ID 외래키 참조 */
-   [USERINFO_USERID] VARCHAR(15) FOREIGN KEY REFERENCES USERINFO ([USERID]) /* 댓글 남긴이 ID 외래키 참조 */
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
+
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+
+	[VOC_ID] INT FOREIGN KEY REFERENCES VOC_TB ([ID]),
+	[USERS_USERID] VARCHAR(15) FOREIGN KEY REFERENCES USERS_TB ([USER_ID]),
+	[SOCKET_ROOMS_ID] INT FOREIGN KEY REFERENCES SOCKET_ROOMS_TB ([ID])
+)
+
+/* 설비정보 테이블 */
+CREATE TABLE FACILITYS_TB
+(
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[NAME] VARCHAR(255) NOT NULL, /* 시설의 명칭 */
+	[CATEGORY] VARCHAR(10) NOT NULL, /* 설비 구분 */
+	[TYPE] VARCHAR(30), /* 형식 */
+	[STANDARD_CAPACITY] FLOAT, /* 규격 용량 */
+	[STANDARD_CAPACITY_UNIT] VARCHAR(10), /* 규격용량 - 단위 */
+	[FAC_CREATE_DT] DATETIME DEFAULT(getdate()), /* 설치 년월 */
+	[LIFESPAN] VARCHAR(10), /* 내용 년수 */
+	[FAC_UPDATE_DT] DATETIME, /* 교체 년월 */
+
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
+
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+
+	[ROOMS_ID] INT FOREIGN KEY REFERENCES ROOMS_TB (ID)
+)
+
+/* 자재관리 테이블 */
+CREATE TABLE MATERIALS_TB
+(
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[CATEGORY] VARCHAR(10) NOT NULL, /* 자재 구분 */
+	[TYPE] VARCHAR(30) NOT NULL, /* 타입 */
+	[NAME] VARCHAR(100) NOT NULL, /* 자재명 */
+	[UNIT] VARCHAR(10), /* 단위 */
+	[STANDARD] VARCHAR(10), /* 규격 */
+	[MANUFACTURING_COMP] VARCHAR(25), /* 제조사 */
+	
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
+
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+)
+
+/* 건물 전체 자재 */
+CREATE TABLE TOTAL_INVENTORYS_TB
+(
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[INCOMING_NUM] INT NOT NULL DEFAULT(0), /* 입고수량 */
+	[PRICE] INT NOT NULL DEFAULT(0), /* 단가 */
+
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
+
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+
+	[MATERIAL_ID] INT FOREIGN KEY REFERENCES MATERIALS_TB([ID]),
+	[BUILDING_CD] VARCHAR(25) FOREIGN KEY REFERENCES BUILDINGS_TB ([BUILDING_CD])
 )
 
 
-
-// ----------------------------------------------------------
-
-
-/* 에너지관리 테이블 */
-CREATE TABLE ENERGYINFO
+/* 서브 테이블 */
+CREATE TABLE SUB_ITEMS_TB
 (
-   [ID] INT PRIMARY KEY IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
-    [CATEGORY] VARCHAR(10) NOT NULL, /* 카테고리 */
-    [TYPE] VARCHAR(10), /* 계약종별 */
-    [METER_GB] VARCHAR(10), /* 검침항목 */
-    [METER_DT] DATETIME, /* 검침일자 */
-    [METER_VALUE] FLOAT, /* 일별 VALUE */
-    
-    [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-    [CREATE_USER] varchar(15),
-    [UPDATE_USER] varchar(15),
-    [DELETE_USER] varchar(15),
-    [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-    [UPDATE_DT] DATETIME,
-    [DELETE_DT] DATETIME
-)
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[NAME] VARCHAR(25) NOT NULL, /* 컬럼 명 */
+	[VALUE] VARCHAR(255), /* 값 */
+	[UNIT] VARCHAR(10), /* 단위 */
 
-/* 월별 에너지 합계량 */
-CREATE TABLE ENERGYMONTHINFO
-(
-    [ID] INT PRIMARY KEY IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
-    [CATEGORY] VARCHAR(10) NOT NULL,
-    [TOTAL_VALUE] FLOAT,
-    [TOTAL_DT] DATETIME, /* 월별 */
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
 
-    [DEL_YN] BIT DEFAULT(0), /* 0: N 1: Y */
-    [CREATE_USER] varchar(15),
-    [UPDATE_USER] varchar(15),
-    [DELETE_USER] varchar(15),
-    [CREATE_DT] DATETIME DEFAULT(GETDATE()),
-    [UPDATE_DT] DATETIME,
-    [DELETE_DT] DATETIME,
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
 
-    [BUILDINGINFO_CODE] VARCHAR(25) FOREIGN KEY REFERENCES BUILDINGINFO (CODE), /* 건물 FK */
+	[BUILDING_CD] VARCHAR(25) FOREIGN KEY REFERENCES BUILDINGS_TB ([BUILDING_CD]),
+	[FACILITY_ID] INT FOREIGN KEY REFERENCES FACILITYS_TB([ID])
 )
 
 
+/* 공간 자재 재고 */
+CREATE TABLE ROOM_INVENTORYS_TB
+(
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[ROOM_MATERIAL_NUM] INT DEFAULT(0) NOT NULL, /* 공간 수량 */
+	
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
 
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
 
+	[ROOMS_ID] INT FOREIGN KEY REFERENCES ROOMS_TB (ID),
+	[BUILDING_CD] VARCHAR(25) FOREIGN KEY REFERENCES BUILDINGS_TB ([BUILDING_CD])
+)
 
-전기 일 계약종별 검침항목 - 일 TOTAL
-가스 일 검침항목 - 일
-상하수 일
-지역난 일
-경유 일
+/* 카카오톡 로그 테이블 */
+CREATE TABLE KAKAO_LOGS_TB
+(
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[RESULT] VARCHAR(255) NOT NULL, /* 결과 값 */
+	[RECEIVER] VARCHAR(20), /* 수신자 */
+	[SENDER] VARCHAR(20), /* 발신자 */
+	[CONTENT] VARCHAR(200),
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
 
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+)
 
+/* 검침기 테이블 */
+CREATE TABLE METER_READERS_TB
+(
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[CATEGORY] VARCHAR(10) NOT NULL, /* 구분 */
+	[TYPE] VARCHAR(30) NOT NULL,
+	[METER_ITEM] VARCHAR(30), /* 검침 항목 */ 
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
 
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+	[BUILDING_CD] VARCHAR(25) FOREIGN KEY REFERENCES BUILDINGS_TB ([BUILDING_CD])
+)
 
+CREATE TABLE ENERGY_USAGES_TB
+(
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[USAGE] FLOAT NULL, /* 사용량 */
+	[METER_DT] DATETIME,
 
-DROP TABLE DEVICEINFO
-DROP TABLE FLOORINFO
-DROP TABLE LOCATIONINFO
-DROP TABLE PLACEINFO
+	[CREATE_DT] DATETIME DEFAULT(getdate()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 만든 사람 */
+
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0: 삭제안함 1: 삭제 */
+)
+
+/* 단가 테이블 */
+CREATE TABLE UNIT_PRICE_TB
+(
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[PRICE] FLOAT,
+	[METER_READER_ID] INT FOREIGN KEY REFERENCES METER_READERS_TB([ID]),
+	[ENVERY_USAGE_ID] INT FOREIGN KEY REFERENCES ENERGY_USAGES_TB([ID])
+)
+
+DROP TABLE ALARMINFO;
+DROP TABLE ALARMTALKLOG
 DROP TABLE BUILDINGINFO
+DROP TABLE ENERGYINFO
+DROP TABLE ENERGYMONTHINFO
+DROP TABLE FACILITYINFO
+DROP TABLE FLOORINFO
+DROP TABLE MATERIALINFO
+DROP TABLE PLACEINFO
+DROP TABLE ROOM_INVENTORY
+DROP TABLE ROOMINFO
+DROP TABLE SOCKETROOMINFO
+DROP TABLE SUBITEM
+DROP TABLE TOTAL_INVENTORY
 DROP TABLE USERINFO
-
-/*
-ALTER TABLE [테이블명] ADD CONSTRAINT [FOREIGN KEY명] FOREIGN KEY ([컬럼명]) REFERENCES [테이블명] ([컬럼명])
-*/
-ALTER TABLE BUILDINGINFO ADD CONSTRAINT PLACEINFO_CODE FOREIGN KEY (CODE) REFERENCES PLACEINFO (CODE)
-
+DROP TABLE VOCINFO
+DROP TABLE VOCINFO_COMMENT
 
 
 

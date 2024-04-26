@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FMS.Shared.Model;
 
-[Table("FACILITYINFO")]
-public partial class Facilityinfo
+[Table("FACILITYS_TB")]
+public partial class FacilitysTb
 {
     [Key]
     [Column("ID")]
@@ -31,56 +31,56 @@ public partial class Facilityinfo
     [Column("STANDARD_CAPACITY")]
     public double? StandardCapacity { get; set; }
 
-    [Column("STANDARD_UNIT")]
+    [Column("STANDARD_CAPACITY_UNIT")]
     [StringLength(10)]
     [Unicode(false)]
-    public string? StandardUnit { get; set; }
+    public string? StandardCapacityUnit { get; set; }
 
-    [Column("FACILITY_CREATEDT", TypeName = "datetime")]
-    public DateTime? FacilityCreatedt { get; set; }
+    [Column("FAC_CREATE_DT", TypeName = "datetime")]
+    public DateTime? FacCreateDt { get; set; }
 
     [Column("LIFESPAN")]
     [StringLength(10)]
     [Unicode(false)]
     public string? Lifespan { get; set; }
 
-    [Column("FACILITY_UPDATEDT", TypeName = "datetime")]
-    public DateTime? FacilityUpdatedt { get; set; }
+    [Column("FAC_UPDATE_DT", TypeName = "datetime")]
+    public DateTime? FacUpdateDt { get; set; }
 
-    [Column("DEL_YN")]
-    public bool? DelYn { get; set; }
+    [Column("CREATE_DT", TypeName = "datetime")]
+    public DateTime? CreateDt { get; set; }
 
     [Column("CREATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
     public string? CreateUser { get; set; }
 
+    [Column("UPDATE_DT", TypeName = "datetime")]
+    public DateTime? UpdateDt { get; set; }
+
     [Column("UPDATE_USER")]
     [StringLength(15)]
     [Unicode(false)]
     public string? UpdateUser { get; set; }
 
-    [Column("DELETE_USER")]
+    [Column("DEL_DT", TypeName = "datetime")]
+    public DateTime? DelDt { get; set; }
+
+    [Column("DEL_USER")]
     [StringLength(15)]
     [Unicode(false)]
-    public string? DeleteUser { get; set; }
+    public string? DelUser { get; set; }
 
-    [Column("CREATE_DT", TypeName = "datetime")]
-    public DateTime? CreateDt { get; set; }
+    [Column("DEL_YN")]
+    public bool? DelYn { get; set; }
 
-    [Column("UPDATE_DT", TypeName = "datetime")]
-    public DateTime? UpdateDt { get; set; }
+    [Column("ROOMS_ID")]
+    public int? RoomsId { get; set; }
 
-    [Column("DELETE_DT", TypeName = "datetime")]
-    public DateTime? DeleteDt { get; set; }
+    [ForeignKey("RoomsId")]
+    [InverseProperty("FacilitysTbs")]
+    public virtual RoomsTb? Rooms { get; set; }
 
-    [Column("ROOMINFO_ID")]
-    public int? RoominfoId { get; set; }
-
-    [ForeignKey("RoominfoId")]
-    [InverseProperty("Facilityinfos")]
-    public virtual Roominfo? Roominfo { get; set; }
-
-    [InverseProperty("Facilityinfo")]
-    public virtual ICollection<Subitem> Subitems { get; set; } = new List<Subitem>();
+    [InverseProperty("Facility")]
+    public virtual ICollection<SubItemsTb> SubItemsTbs { get; set; } = new List<SubItemsTb>();
 }
