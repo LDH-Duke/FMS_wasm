@@ -1,4 +1,5 @@
 @using SvgBlazor;
+@using System;
 
 <div class="drawer-container">
     <ul class="drawer-wrap">
@@ -9,8 +10,6 @@
                     class="drawer-link"
                     href = "@(category.Url != null ? category.Url : null)"
                 >
-                <SvgImage Source="/img/my-svg-image.svg" Width="100" Height="100" />
-
                     <span>
                         @category.Name
                     </span>
@@ -38,6 +37,7 @@
 
 
 @code{
+
     public class Category
         {
             public string Name { get; set; }
@@ -61,11 +61,7 @@
             SvgImgUrl = "Client/wwwroot/img/drawer/building.svg",
             SubCategory = new List<Category>
             {
-                new Category{Name="기계", Url="/equipment/machine"},
-                new Category{Name="전기", Url="/equipment/electronic"},
-                new Category{Name="승강", Url="/equipment/lift"},
-                new Category{Name="소방", Url="/equipment/fire"},
-                new Category{Name="건축", Url="/equipment/construct"},
+            new Category{Name="건축", Url="/equipment/construct"},
                 new Category{Name="통신", Url="/equipment/communication"},
                 new Category{Name="미화", Url="/equipment/beautification"},
                 new Category{Name="보안", Url="/equipment/security"},
@@ -109,4 +105,5 @@
 
         }
     };
+
 }
