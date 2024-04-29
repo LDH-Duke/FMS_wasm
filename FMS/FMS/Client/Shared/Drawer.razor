@@ -1,6 +1,7 @@
 @using SvgBlazor;
 @using System;
 
+
 <div class="drawer-container">
     <ul class="drawer-wrap">
         @foreach(var category in CategoryList)
@@ -42,7 +43,7 @@
 
     public class Category
         {
-            public string Name { get; set; }
+            public string? Name { get; set; }
             public string? Url { get; set; }
             public List<Category>? SubCategory { get; set; }
             public bool IsDropDown { get; set; } = false;
@@ -51,6 +52,12 @@
 
     List<Category> CategoryList = new List<Category>
     {
+        new Category
+        {
+            Name="사업장",
+            Url = "/place",
+            SvgImgUrl = "Client/wwwroot/img/drawer/building.svg"
+        },
         new Category
         {
             Name="건물정보",

@@ -1,0 +1,12 @@
+
+.table-container{
+    border:2px solid #200d69;
+}
+
+.table-container .table-header {
+    display: flex;
+    width: 100%;
+    padding: 0.8rem;
+    
+    background-color:#d3d3d3
+}
