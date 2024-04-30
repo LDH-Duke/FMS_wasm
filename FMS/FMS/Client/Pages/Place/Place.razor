@@ -1,12 +1,29 @@
 @page "/place"
 
 @using FMS.Client.Pages.Place.Components
+@using FMS.Shared.Client.Dto
+@using Newtonsoft.Json.Linq;
+@using System.Reflection;
+
+
+@inject HttpClient httpClient
 
 <div class="place-container">
-    <Table />
+    <Table Data="@tableData" Properties="@properties"/>
 </div>
 
 @code{
-    Dictionary<string,object> jsonDic = new Dictionary<string, object>();
+    List<PlaceDto> places_list;
+    List<string> properties;
+    List<object> tableData;
+
+    protected override async Task OnInitializedAsync(){
+
+        places_list = await httpClient.GetFromJsonAsync<List<PlaceDto>>("http://127.0.0.1:5077/api/users/place");
+        tableData = places_list.Cast<object>().ToList();
+
+        properties = typeof(PlaceDto).GetProperties().Select(p => p.Name).ToList();
+        
+    }
     
-}
+}    

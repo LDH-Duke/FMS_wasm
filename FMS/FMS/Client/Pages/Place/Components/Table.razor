@@ -12,12 +12,38 @@
         </div>
         <div class="table-body">
             <table>
-                <thead>
-                    <tr>
-                        <th></th>
+                <thead class="thead">
+                    <tr class="thead-tr">
+                        <th>
+                            <input type="checkbox" />
+                        </th>
+                        @foreach(var property in Properties)
+                        {
+                            <th class="thead-th">@property</th>
+                        }
+                        
                     </tr>
                 </thead>
+                <tbody class="tbody">
+                    @foreach(var row in Data)
+                    {
+                        <tr class="tbody-tr">
+                            <th>
+                                <input type="checkbox" />
+                            </th>
+                            @foreach(var property in Properties)
+                            {
+                                <td class="tbody-td">@row.GetType().GetProperty(property)?.GetValue(row)</td>
+                            }                           
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
     </div>
 </div>
+
+@code{
+    [Parameter] public List<Object> Data {get; set;}
+    [Parameter] public List<string> Properties {get; set;}
+}

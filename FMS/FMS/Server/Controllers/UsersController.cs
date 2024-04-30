@@ -2,7 +2,7 @@
 using FMS.Server.Repository.Interfaces;
 using FMS.Server.Services;
 using FMS.Shared.Model;
-using FMS.Shared.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -12,15 +12,19 @@ using System.Text.Json.Nodes;
 
 namespace FMS.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly IUserService dataService;
         private readonly IUserInfoRepository UserInfoRepository;
 
-        public UsersController(IUserInfoRepository _UserInfoRepository, IUserService _dataService)
+        private readonly IPlaceInfoRepository PlaceInfoRepository;
+
+        public UsersController(IUserInfoRepository _UserInfoRepository, IUserService _dataService, IPlaceInfoRepository _PlaceInfoRepository)
         {
+            //place 테스트
+            PlaceInfoRepository = _PlaceInfoRepository;
             UserInfoRepository = _UserInfoRepository;
             dataService = _dataService;
         }
@@ -59,6 +63,26 @@ namespace FMS.Server.Controllers
             }
         }
 
+        // 사업장 DB조회 TEST용
+        [HttpGet]
+        [Route("place")]
+        public async Task<IActionResult> FindAllPlace()
+        {
+            try
+            {
+                Console.WriteLine("사업장 테이블 조회");
+                var place_list = await PlaceInfoRepository.GetTableListAsync();
+                Console.WriteLine(place_list);
 
+
+                return Ok(place_list);
+            }catch(Exception ex)
+            {
+                Console.WriteLine("[UserController][AddUser] + 회원가입 컨트롤러 에러 ! \n" + ex);
+                return BadRequest("Error occurred while processing data.");
+            }
+        }
     }
+
 }
+

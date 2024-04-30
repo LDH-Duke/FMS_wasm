@@ -13,6 +13,8 @@ builder.Services.AddTransient<IUserService, UserService>();
 
 // ������ ����
 builder.Services.AddTransient<IUserInfoRepository, UserInfoRepository>();
+builder.Services.AddTransient<IPlaceInfoRepository, PlaceInfoRepository>();
+
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

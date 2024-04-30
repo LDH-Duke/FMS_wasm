@@ -1,4 +1,5 @@
-﻿using FMS.Shared.Model;
+﻿using FMS.Shared.Client.Dto;
+using FMS.Shared.Model;
 
 namespace FMS.Server.Repository.Interfaces
 {
@@ -37,5 +38,7 @@ namespace FMS.Server.Repository.Interfaces
         /// <param name="userid"></param>
         /// <returns></returns>
         ValueTask<bool> DeleteAsync(string code);
+
+        ValueTask<List<PlaceDto>> GetTableListAsync();
     }
 }

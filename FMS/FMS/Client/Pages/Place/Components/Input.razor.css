@@ -11,3 +11,7 @@
     color : #200d69;
 
 }
+
+::placeholder{
+    color: #200d69;
+}

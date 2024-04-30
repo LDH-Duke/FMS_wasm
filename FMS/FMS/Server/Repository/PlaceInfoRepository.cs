@@ -1,7 +1,11 @@
-﻿using FMS.Server.Databases;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection;
+using FMS.Server.Databases;
 using FMS.Server.Repository.Interfaces;
+using FMS.Shared.Client.Dto;
 using FMS.Shared.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace FMS.Server.Repository
 {
@@ -117,5 +121,39 @@ namespace FMS.Server.Repository
                 throw;
             }
         }
+
+        public async ValueTask<List<PlaceDto>> GetTableListAsync(){
+            try
+            {
+                var result = await context.PlacesTbs
+                .Select(p => new PlaceDto
+                {
+                    Code = p.PlaceCd,
+                    Name = p.Name,
+                    Note = p.Note,
+                    ContractNum = p.ContractNum,
+                    ContractDate = (DateTime)p.CreateDt,
+                })
+                .ToListAsync();
+                return result;
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async void GetColumnsAsync(){
+            var a = typeof(PlacesTb);
+            var b = a.GetProperties();
+            foreach(var property in b){
+                var c = property.GetCustomAttribute<ColumnAttribute>();
+                Console.WriteLine(c);
+            }
+
+        
+        }
     }
+
+
 }
