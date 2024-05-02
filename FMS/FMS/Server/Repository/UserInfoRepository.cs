@@ -116,5 +116,16 @@ namespace FMS.Server.Repository
                 throw;
             }
         }
+
+        /// <summary>
+        /// NAME 검색
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async ValueTask<List<UsersTb>> GetByUserNameAsync(string username)
+        {
+            return await context.UsersTbs.Where(m => m.Name.StartsWith(username)).ToListAsync();
+        }
     }
 }

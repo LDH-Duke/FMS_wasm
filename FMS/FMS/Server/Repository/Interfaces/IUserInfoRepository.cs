@@ -37,5 +37,12 @@ namespace FMS.Server.Repository.Interfaces
         /// <param name="userid"></param>
         /// <returns></returns>
         ValueTask<bool> DeleteAsync(string userid);
+
+        /// <summary>
+        /// 사용자검색 (이름으로)
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        ValueTask<List<UsersTb>> GetByUserNameAsync(string username);
     }
 }

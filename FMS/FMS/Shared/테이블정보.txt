@@ -1,6 +1,4 @@
-﻿
-
-/* 사업장 테이블 */
+﻿/* 사업장 테이블 */
 CREATE TABLE PLACES_TB
 (
 	[ID] INT IDENTITY(1,1) NOT NULL, /* 자동 증가값 */
@@ -451,3 +449,48 @@ https://www.entityframeworktutorial.net/efcore/pmc-commands-for-ef-core-migratio
 
 Scaffold-DbContext  "Data Source=123.2.156.122,1002;Database=FMS;User Id=stec;Password=stecdev1234!;TrustServerCertificate=true;" Microsoft.EntityFrameworkCore.SqlServer
 Scaffold-DbContext  "Data Source=123.2.156.122,1002;Database=FMS;User Id=stec;Password=stecdev1234!;TrustServerCertificate=true;" Microsoft.EntityFrameworkCore.SqlServer -o update
+
+// 추가대기 항목 =================================================================================================================================================================================
+/* 단위 테이블 */
+CREATE TABLE UNIT_TB
+(
+	ID INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	UNIT VARCHAR(10) NOT NULL, /* 단위명 */
+
+	[CREATE_DT] DATETIME DEFAULT(GETDATE()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 생성한 사람 */
+	[UPDATE_DT] DATETIME, /* 수정시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0 : 삭제안함 1 : 삭제함 */
+	[PLACECODE_CD] VARCHAR(25) FOREIGN KEY REFERENCES PLACES_TB([PLACE_CD])
+)
+
+/* 월별 사용량 통계 테이블 */
+CREATE TABLE ENERGY_MONTH_USAGE_TB
+(
+	[ID] INT IDENTITY(1,1) PRIMARY KEY NOT NULL, /* 자동 증가값 */
+	[JAN] FLOAT DEFAULT(0), /* 1월 */
+	[FEB] FLOAT DEFAULT(0), /* 2월 */
+	[MAR] FLOAT DEFAULT(0),	/* 3월 */
+	[APR] FLOAT DEFAULT(0),	/* 4월 */
+	[MAY] FLOAT DEFAULT(0),	/* 5월 */
+	[JUN] FLOAT DEFAULT(0),	/* 6월 */
+	[JUL] FLOAT DEFAULT(0),	/* 7월 */
+	[AUG] FLOAT DEFAULT(0),	/* 8월 */
+	[SEP] FLOAT DEFAULT(0),	/* 9월 */
+	[OCT] FLOAT DEFAULT(0),	/* 10월 */
+	[NOV] FLOAT DEFAULT(0),	/* 11월 */
+	[DEC] FLOAT DEFAULT(0),	/* 12월 */
+
+	[CREATE_DT] DATETIME DEFAULT(GETDATE()), /* 생성시간 */
+	[CREATE_USER] VARCHAR(15), /* 생성한 사람 */
+	[UPDATE_DT] DATETIME, /* 수정한시간 */
+	[UPDATE_USER] VARCHAR(15), /* 수정한 사람 */
+	[DEL_DT] DATETIME, /* 삭제시간 */
+	[DEL_USER] VARCHAR(15), /* 삭제한 사람 */
+	[DEL_YN] BIT DEFAULT(0), /* 0 : 삭제함, 1: 삭제안함 */
+
+	[METER_READER_ID] INT FOREIGN KEY REFERENCES METER_READERS_TB([ID])
+)

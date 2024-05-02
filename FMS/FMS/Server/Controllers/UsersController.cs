@@ -16,13 +16,11 @@ namespace FMS.Server.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserService dataService;
         private readonly IUserInfoRepository UserInfoRepository;
 
         public UsersController(IUserInfoRepository _UserInfoRepository, IUserService _dataService)
         {
             UserInfoRepository = _UserInfoRepository;
-            dataService = _dataService;
         }
 
         [HttpGet]
@@ -59,6 +57,14 @@ namespace FMS.Server.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("search/{username}")]
+        public async Task<IActionResult> SearchName(string username)
+        {
+            var temp = await UserInfoRepository.GetByUserNameAsync(username);
+
+            return Ok();
+        }
 
     }
 }

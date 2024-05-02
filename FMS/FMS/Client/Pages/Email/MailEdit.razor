@@ -1,0 +1,41 @@
+﻿@page "/mails"
+
+@inject IJSRuntime JSRuntime
+@using FMS.Client.Pages.Modals
+@using FMS.Shared.DTO
+
+<h3>MailEdit</h3>
+
+
+<div>
+    <span>보낸사람 : </span>
+    <InputText @bind-Value="model.From" placeholder="보낸사람을 입력해주세요"/>
+</div>
+<div>
+    <span>받는사람 : </span>
+    
+    <input type="button" value="추가" @onclick="btnClick"/>
+        
+</div>
+    
+<UserSearch @ref="UserDialog"> </UserSearch>
+
+
+@code {
+    public UserSearch UserDialog { get; set; }
+
+    List<string> toAddress;
+    MailsDTO model;
+
+    protected override void OnInitialized()
+    {
+        toAddress = new List<string>();
+        model = new MailsDTO();
+    }
+
+    private async Task btnClick()
+    {
+        UserDialog.Show();
+    }
+
+}
